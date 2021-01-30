@@ -27,7 +27,7 @@ func CreateDynamic() *DynamicRoom {
 
 // AddPlayer 加入玩家
 func (w *DynamicRoom) AddPlayer(p *Player) {
-	w.players[p.PlayerID] = p
+	//w.players[p.PlayerID] = p
 }
 
 // RemovePlayer 移除玩家

@@ -3,29 +3,23 @@ package game
 import (
 	"Server/zero"
 	"encoding/json"
-	"math/rand"
 )
 
 // Player Player
 type Player struct {
-	PlayerID string        `json:"playerID"`
-	X        int           `json:"x"`
-	Y        int           `json:"y"`
 	Name     string        `json:"name"`
-	Type     int           `json:"type"`
+	Type     int           `json:"type"`   // 多人模式还是单人模式
 	Session  *zero.Session `json:"-"`
 	NextProcess int        `json:"nextProcess"`
 	Colors    []int         `json:"colors"`
+	Keys      []int          `json:"keys"`
 }
 
 // CreatePlayer 创建玩家
 func CreatePlayer(name string, s *zero.Session) *Player {
 
 	player := &Player{
-		//PlayerID: name,
 		Name:     name,
-		X:        rand.Intn(10),
-		Y:        rand.Intn(10),
 		//Type:     rand.Intn(5),
 		NextProcess: 1,                   //新玩家默认进第一关
 		Colors: make([]int, 0),
