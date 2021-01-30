@@ -7,6 +7,7 @@ public class DataTransfer : MonoBehaviour
     [System.Serializable]
     public struct ColorPaths
     {
+        public int index;
         public Color color;
         public Sprite SBottle;
         public Sprite SDoor;
@@ -60,5 +61,26 @@ public class DataTransfer : MonoBehaviour
             return cp.SKey;
         }
         else return null;
+    }
+
+    public int GetColorIndex(Color color)
+    {
+        ColorPaths cp = Colors.Find(x => x.color == color);
+        if (cp.color == color)
+        {
+            return cp.index;
+        }
+        else return -1;
+    }
+
+
+    public Color IndexToColor(int index)
+    {
+        ColorPaths cp = Colors.Find(x => x.index == index);
+        if (cp.index == index)
+        {
+            return cp.color;
+        }
+        else return Color.white;
     }
 }

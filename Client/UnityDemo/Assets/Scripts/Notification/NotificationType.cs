@@ -7,5 +7,7 @@
     Network_OnBroadcastJoin,
     Network_OnBroadcastLeave,
     Operate_MapPosition,
+    Network_OnResponseRegister,
+    Network_OnResponseLogin,
 }
 

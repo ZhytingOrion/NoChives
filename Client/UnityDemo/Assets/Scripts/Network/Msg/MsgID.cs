@@ -1,10 +1,14 @@
 ﻿public enum MsgID
 {
-    Request_Join = 1,
-    Response_Join = 2,
-    Request_Move = 3,
-    Broadcast_Move = 4,
-    Broadcast_Join = 5,
-    Broadcast_Leave = 6,
+    Request_Join = 101,
+    Response_Join = 102,
+    Request_Move = 103,
+    Broadcast_Move = 104,
+    Broadcast_Join = 105,
+    Broadcast_Leave = 106,
+    RequestRegister = 1,
+    ResponseRegister = 2,
+    RequestLoginIn = 3,
+    ResponseLoginIn = 4,
 }
 

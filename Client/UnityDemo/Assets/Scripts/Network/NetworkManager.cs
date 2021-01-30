@@ -49,9 +49,24 @@ public class NetworkManager : MonoBehaviour
 
     private void HandleMessage(Message msg)
     {
+        Debug.Log("Get Message " + msg.MessageID);
         var msgID = (MsgID)msg.MessageID;
         switch (msgID)
         {
+            case MsgID.ResponseRegister:
+                {
+                    ResponseRegister data = new ResponseRegister();
+                    data.FromMessage(msg);
+                    NotificationCenter.Instance.PushEvent(NotificationType.Network_OnResponseRegister, data);
+                    break;
+                }
+            case MsgID.ResponseLoginIn:
+                {
+                    ResponseLogin data = new ResponseLogin();
+                    data.FromMessage(msg);
+                    NotificationCenter.Instance.PushEvent(NotificationType.Network_OnResponseLogin, data);
+                    break;
+                }
             case MsgID.Response_Join:
                 {
                     ResponseJoin data = new ResponseJoin();
@@ -108,6 +123,22 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
+    public void SendLogin(string username)
+    {
+        var msg = new RequestLogin();
+        msg.name = username;
+        SendMessage(msg.ToMessage());
+        Debug.Log("发送登录消息" + username);
+    }
+
+    public void SendRegister(string username)
+    {
+        var msg = new RequestRegister();
+        msg.name = username;
+        SendMessage(msg.ToMessage());
+        Debug.Log("发送注册消息" + username);
+    }
+
     public void SendJoin()
     {
         var msg = new RequestJoin().ToMessage();
@@ -137,6 +168,7 @@ public class NetworkManager : MonoBehaviour
 
     public void OnMessage(Message msg)
     {
+        Debug.Log("Get Message " + msg.MessageID);
         lock (thisLock)
         {
             m_msgQueue.Enqueue(msg);

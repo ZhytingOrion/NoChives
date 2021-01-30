@@ -10,8 +10,11 @@ public class LoginCanvasUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ModeChoosePlane.SetActive(PlayerManager.Instance.isLogin);
-        LoginPlane.SetActive(!PlayerManager.Instance.isLogin);
+        bool isLogin = false;
+        if (PlayerManager.Instance != null)
+            isLogin = PlayerManager.Instance.isLogin;
+        ModeChoosePlane.SetActive(isLogin);
+        LoginPlane.SetActive(!isLogin);
     }
 
     public void BackToLogin()
@@ -31,6 +34,10 @@ public class LoginCanvasUI : MonoBehaviour
     public void RegisterOrLogin(int index)  //0:register 1:login in
     {
         //send message
+        if (index == 0)
+            NetworkManager.Instance.SendRegister(PlayerManager.Instance.playerName);
+        else
+            NetworkManager.Instance.SendLogin(PlayerManager.Instance.playerName);
         //PlayerManager.Instance.playerName;
 
         ModeChoosePlane.SetActive(true);

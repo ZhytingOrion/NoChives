@@ -9,6 +9,7 @@ public class AimController : MonoBehaviour
     public float destScale = 0.3f;
     public float animTime = 1.0f;
     public float animStayTime = 0.5f;
+    //public AnimationCurve destScaleCurve;
 
 
     // Start is called before the first frame update
@@ -40,7 +41,7 @@ public class AimController : MonoBehaviour
 
         for(float t = 0; t<animTime; t+=Time.deltaTime)
         {
-            this.transform.localScale = Vector3.Lerp(originScale, finalScale, t / animTime);
+            this.transform.localScale = Vector3.Lerp(originScale, finalScale, t / animTime);//originScale * destScaleCurve.Evaluate(t / animTime);
             this.transform.position = Vector3.Lerp(originLoc, player.position, t / animTime);
             vc.m_Lens.OrthographicSize = Mathf.Lerp(originCameraOrthoSize, destCameraOrthoSize, t / animTime);
             yield return null;

@@ -25,6 +25,44 @@ public class GameManager : MonoBehaviour
         nc.AddEventListener(NotificationType.Network_OnConnected, OnConnected);
         nc.AddEventListener(NotificationType.Network_OnDisconnected, OnDisconnected);
         nc.AddEventListener(NotificationType.Operate_MapPosition, OnTouchMap);
+        nc.AddEventListener(NotificationType.Network_OnResponseRegister, OnResponseRegister);
+        nc.AddEventListener(NotificationType.Network_OnResponseLogin, OnResponseLogin);
+    }
+
+    void OnResponseRegister(NotificationArg arg)
+    {
+        ResponseLogin data = arg.GetValue<ResponseLogin>();
+        if (data.isSuccess)
+        {
+            Debug.Log("注册成功");
+            PlayerData self = data.self;
+            PlayerManager.Instance.playerName = self.name;
+            PlayerManager.Instance.collectedColor.Clear();
+            for (int i = 0; i < self.colors.Length; i++)
+            {
+                PlayerManager.Instance.collectedColor.Add(DataTransfer.Instance.IndexToColor(self.colors[i]));
+            }
+        }
+        else
+            Debug.Log("注册失败");
+    }
+
+    void OnResponseLogin(NotificationArg arg)
+    {
+        ResponseLogin data = arg.GetValue<ResponseLogin>();
+        if (data.isSuccess)
+        {
+            Debug.Log("登录成功");
+            PlayerData self = data.self;
+            PlayerManager.Instance.playerName = self.name;
+            PlayerManager.Instance.collectedColor.Clear();
+            for (int i = 0; i < self.colors.Length; i++)
+            {
+                PlayerManager.Instance.collectedColor.Add(DataTransfer.Instance.IndexToColor(self.colors[i]));
+            }
+        }
+        else
+            Debug.Log("登录失败");
     }
 
     void OnResponseJoin(NotificationArg arg)
@@ -92,7 +130,7 @@ public class GameManager : MonoBehaviour
     void OnConnected(NotificationArg arg)
     {
         Debug.Log("OnConnected");
-        NetworkManager.Instance.SendJoin();
+        //NetworkManager.Instance.SendJoin();
     }
 
     void OnDisconnected(NotificationArg arg)

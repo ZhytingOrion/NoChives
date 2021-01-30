@@ -10,6 +10,8 @@ public class PlayerData
     public float x;
     public float y;
     public int type;
+    public int nextProcess;
+    public int[] colors;
 }
 
 [Serializable]
