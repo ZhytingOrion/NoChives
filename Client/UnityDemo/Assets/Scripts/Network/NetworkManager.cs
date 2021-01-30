@@ -168,7 +168,7 @@ public class NetworkManager : MonoBehaviour
 
     public void OnMessage(Message msg)
     {
-        Debug.Log("Get Message " + msg.MessageID);
+        Debug.Log("Get Message ");
         lock (thisLock)
         {
             m_msgQueue.Enqueue(msg);

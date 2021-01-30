@@ -1,4 +1,6 @@
-﻿[System.Serializable]
+﻿using UnityEngine;
+
+[System.Serializable]
 public class RequestRegister : BaseMsg
 {
     public string name;
@@ -14,6 +16,7 @@ public class RequestRegister : BaseMsg
 
     public override byte[] ToData()
     {
-        return new byte[0];
+        var str = JsonUtility.ToJson(this);
+        return System.Text.Encoding.ASCII.GetBytes(str);
     }
 }

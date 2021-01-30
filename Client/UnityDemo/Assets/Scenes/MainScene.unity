@@ -2196,6 +2196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 101e19f2d20b6e14c9ed66b8913b7fe7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isLogin: 0
   collectedColor: []
   collectedKeys: []
   playerName: 
@@ -2266,32 +2267,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Colors:
-  - color: {r: 1, g: 0, b: 0, a: 1}
+  - index: 0
+    color: {r: 1, g: 0, b: 0, a: 1}
     SBottle: {fileID: 21300000, guid: dcb19df7267a3564ea094a67c993af1f, type: 3}
     SDoor: {fileID: 0}
     SDoorHightlight: {fileID: 0}
     SKey: {fileID: 0}
-  - color: {r: 1, g: 1, b: 0, a: 1}
+  - index: 1
+    color: {r: 1, g: 1, b: 0, a: 1}
     SBottle: {fileID: 21300000, guid: 90290aa57ae03fb4aaf60e9a34df0f98, type: 3}
     SDoor: {fileID: 0}
     SDoorHightlight: {fileID: 0}
     SKey: {fileID: 0}
-  - color: {r: 0, g: 0, b: 1, a: 1}
+  - index: 2
+    color: {r: 0, g: 0, b: 1, a: 1}
     SBottle: {fileID: 21300000, guid: 3ba84b3cd8c397a45b9b58d6924c87e6, type: 3}
     SDoor: {fileID: 0}
     SDoorHightlight: {fileID: 0}
     SKey: {fileID: 0}
-  - color: {r: 1, g: 0.5, b: 0, a: 1}
+  - index: 3
+    color: {r: 1, g: 0.5, b: 0, a: 1}
     SBottle: {fileID: 21300000, guid: bb2fa5bd8d432084ca4fdfdc2e40435f, type: 3}
     SDoor: {fileID: 21300000, guid: 45d03bfa618567349a7e8172f72f28de, type: 3}
     SDoorHightlight: {fileID: 21300000, guid: 3e2932a53cba7da43a454a99a683c055, type: 3}
     SKey: {fileID: 21300000, guid: ebc2e9d40f5020742b2bbaad614ce706, type: 3}
-  - color: {r: 1, g: 0, b: 1, a: 1}
+  - index: 4
+    color: {r: 1, g: 0, b: 1, a: 1}
     SBottle: {fileID: 21300000, guid: e5df3a85adb38454d95427b2c76158e4, type: 3}
     SDoor: {fileID: 21300000, guid: 911ef18ba5129704681118a0c212298b, type: 3}
     SDoorHightlight: {fileID: 21300000, guid: 7d2941103cd60f2489cdf838f2a7f033, type: 3}
     SKey: {fileID: 21300000, guid: 9e22b74bcdf91af478863cb477486105, type: 3}
-  - color: {r: 0, g: 1, b: 0, a: 1}
+  - index: 5
+    color: {r: 0, g: 1, b: 0, a: 1}
     SBottle: {fileID: 21300000, guid: 32e0bf1e27837034e8d5717d82b4382a, type: 3}
     SDoor: {fileID: 21300000, guid: 7172d41362feb0b4382424fff73eb3d2, type: 3}
     SDoorHightlight: {fileID: 21300000, guid: 7949adf43182b8b438314456ebcef368, type: 3}

@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
 
     void OnResponseRegister(NotificationArg arg)
     {
-        ResponseLogin data = arg.GetValue<ResponseLogin>();
+        ResponseRegister data = arg.GetValue<ResponseRegister>();
         if (data.isSuccess)
         {
             Debug.Log("注册成功");
