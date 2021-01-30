@@ -4,12 +4,12 @@ import (
 	"log"
 	"time"
 
-	"./game"
-	"zero"
+	"Server/game"
+	"Server/zero"
 )
 
 func main() {
-	host := ":18787"
+	host := "127.0.0.1:3344"
 
 	ss, err := zero.NewSocketService(host)
 	if err != nil {

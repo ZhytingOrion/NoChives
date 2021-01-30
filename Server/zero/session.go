@@ -1,7 +1,7 @@
 package zero
 
 import (
-	uuid "github.com/satori/go.uuid"
+	uuid "Server/zero/uid"
 )
 
 // Session struct

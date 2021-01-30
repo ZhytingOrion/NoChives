@@ -20,17 +20,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f388d726-a12c-44da-92fc-fcf08f4512ef" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/game/define.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/game/player.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/game/processor.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/game/world.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/zero/codec.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/zero/conn.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/zero/def.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/zero/message.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/zero/service.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/zero/session.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/.idea/Server.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/.idea/Server.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/game/define.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/game/player.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/game/processor.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/game/world.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/zero/codec.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/zero/conn.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/zero/def.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/zero/message.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/zero/service.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/zero/session.go" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,6 +50,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
+  <component name="GoLibraries">
+    <option name="indexEntireGoPath" value="false" />
+  </component>
   <component name="ProjectId" id="1njCH7vd7UtmniwzHWMyWZCFYW4" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -60,7 +65,21 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="go.import.settings.migrated" value="true" />
-    <property name="last_opened_file_path" value="$USER_HOME$" />
+    <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/bin" />
+  </component>
+  <component name="RunManager">
+    <configuration name="go build Server" type="GoApplicationRunConfiguration" factoryName="Go Application" nameIsGenerated="true">
+      <module name="Server" />
+      <working_directory value="$PROJECT_DIR$/bin" />
+      <go_parameters value="-i" />
+      <kind value="DIRECTORY" />
+      <filePath value="$PROJECT_DIR$" />
+      <package value="Server" />
+      <directory value="$PROJECT_DIR$" />
+      <output_directory value="$PROJECT_DIR$/bin" />
+      <method v="2" />
+    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TypeScriptGeneratedFilesManager">
@@ -76,5 +95,20 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VgoProject">
+    <integration-enabled>true</integration-enabled>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="-1375" y="116" width="1092" height="739" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1611977936202">
+      <screen x="-1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="-1375" y="116" width="1092" height="739" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1920.1040/0.0.1920.1040@-1920.0.1920.1040" timestamp="1611977936202" />
+    <state x="-1171" y="271" key="FileChooserDialogImpl" timestamp="1611977935125">
+      <screen x="-1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="-1171" y="271" key="FileChooserDialogImpl/-1920.0.1920.1040/0.0.1920.1040@-1920.0.1920.1040" timestamp="1611977935125" />
+    <state x="749" y="271" key="FileChooserDialogImpl/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1611975538366" />
   </component>
 </project>
