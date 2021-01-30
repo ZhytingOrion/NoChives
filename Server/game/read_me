@@ -2,14 +2,20 @@
 
 // Player Player
 type Player struct {
-	PlayerID string        `json:"playerID"`      // 暂时用不到
-	X        int           `json:"x"`
-	Y        int           `json:"y"`
 	Name     string        `json:"name"`
-	Type     int           `json:"type"`          // 用不到
-	Session  *zero.Session `json:"-"`             // 用不到
 	NextProcess int        `json:"nextProcess"`
 	Colors    []int         `json:"colors"`
+}
+
+type RoomInfo struct {
+     ResourceRand int                // 瓶子随机值
+     Partners []Partner      // 同一个关卡其他玩家的位置
+}
+
+type Partner struct {
+    Name string
+    X     float
+    Y     float
 }
 
 const (
@@ -25,23 +31,23 @@ const (
          4    ResponseLoginIn(player *Player, ok bool)      玩家信息、是否登录成功
 
 进入游戏  5    RequestStartGame(name string, mode int32)     名字 单人模式/多人
-         6    ResponseStartGame(x int, y int, px int, py int, ret bool)  瓶子x坐标, y坐标, 玩家x坐标, y坐标, 是否进入游戏成功
-                 （多人模式下，设定房间里最多4人。超过4人进不去。）
-         18   BroadcastJoinRoom(name string, x int, y int) 仅在多人模式下,   进入关卡的玩家、坐标
+         6    ResponseJoinRoom(roomInfo RoomInfo)  瓶子随机值，其他玩家坐标
+
+         18   BroadcastJoinRoom(name string) 仅在多人模式下,   进入关卡的玩家
 
 
-
-请求移动  11   RequestMove(x int, y int, name string)      玩家坐标，玩家名字      单人模式下客户端不必给服务器发此请求
-        12    BroadcastMove(x int, y int, name string)   移动的玩家坐标，名字
+请求移动  11   RequestMove(x float, y float, name string)      玩家坐标，玩家名字      单人模式下客户端不必给服务器发此请求
+        12    BroadcastMove(x float, y float, name string)   移动的玩家坐标，名字
 
 拿到颜色  13    RequestGetColor(name string)
-        14    BroadcastGetColor(name string)    拿到颜色的玩家名字  仅在多人模式下，服务器才会向客户端发此广播
+         14    BroadcastGetColor(name string)    拿到颜色的玩家名字  仅在多人模式下，服务器才会向客户端发此广播
 
-通过关卡  15    RequestPassProcess(name string)
-         16   BroadcastLeaveRoom(name string)   仅在多人模式下，服务器才会向
+进入下一关 15   RequestJoinRoom(name string, roomId int, LastRoomId int)
+         6    ResponseJoinRoom(roomInfo RoomInfo)  瓶子随机值，其他玩家坐标
+         16   BroadcastLeaveRoom(name string)      仅在多人模式下，  退出关卡的玩家
+         17   BroadcastJoinRoom(name string)      仅在多人模式下,   进入关卡的玩家
 
-进入下一关 17   RequestEnterJoinRoom(name string) 仅多人模式
-         18   BroadcastJoinRoom(name string, x int, y int) 仅在多人模式下,   进入关卡的玩家、坐标
+
 
 
  网络断线 16   BroadcastLeaveRoom(name string)   仅在多人模式下，服务器才会向
