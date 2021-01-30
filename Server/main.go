@@ -16,12 +16,13 @@ func main() {
 		log.Println(err)
 		return
 	}
+	g := game.NewGame()
 
 	ss.SetHeartBeat(5*time.Second, 30*time.Second)
 
-	ss.RegMessageHandler(game.HandleMessage)
-	ss.RegConnectHandler(game.HandleConnect)
-	ss.RegDisconnectHandler(game.HandleDisconnect)
+	ss.RegMessageHandler(g.HandleMessage)
+	ss.RegConnectHandler(g.HandleConnect)
+	ss.RegDisconnectHandler(g.HandleDisconnect)
 
 	log.Println("server running on " + host)
 	ss.Serv()

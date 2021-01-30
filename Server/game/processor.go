@@ -2,37 +2,39 @@ package game
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"Server/zero"
 )
 
 // HandleMessage 处理网络请求
-func HandleMessage(s *zero.Session, msg *zero.Message) {
+func (game *Game) HandleMessage(s *zero.Session, msg *zero.Message) {
 	msgID := msg.GetID()
 
 	switch msgID {
-	case RequestJoin:
-		name := s.GetConn().GetName()
-		player := CreatePlayer(name, s)
-
-		m := make(map[string]interface{})
-		m["self"] = player
-		m["list"] = world.GetPlayerList()
-		data, _ := json.Marshal(m)
-
-		response := zero.NewMessage(ResponseJoin, data)
-		s.GetConn().SendMessage(response)
-
-		for _, p := range world.GetPlayerList() {
-			response := zero.NewMessage(BroadcastJoin, player.ToJSON())
-			p.Session.GetConn().SendMessage(response)
+	case RequestRegister:
+		var f interface{}
+		err := json.Unmarshal(msg.GetData(), &f)
+		if err != nil {
+			return
 		}
-
-		world.AddPlayer(player)
-
-		s.BindUserID(player.PlayerID)
+		m := f.(map[string]interface{})
+		name := m["name"].(string)
+		game.respUserRegister(name, s)
 		break
-
+	case RequestLoginIn:
+		var f interface{}
+		err := json.Unmarshal(msg.GetData(), &f)
+		if err != nil {
+			return
+		}
+		m := f.(map[string]interface{})
+		name := m["name"].(string)
+		game.respUserLoginIn(name, s)
+		break
+	default:
+		fmt.Printf("未知的消息id %v", msgID)
+/*
 	case RequestMove:
 		var f interface{}
 		err := json.Unmarshal(msg.GetData(), &f)
@@ -55,11 +57,12 @@ func HandleMessage(s *zero.Session, msg *zero.Message) {
 			p.Session.GetConn().SendMessage(message)
 		}
 		break
+ */
 	}
 }
 
 // HandleDisconnect 处理网络断线
-func HandleDisconnect(s *zero.Session, err error) {
+func (game *Game) HandleDisconnect(s *zero.Session, err error) {
 	log.Println(s.GetConn().GetName() + " lost.")
 	uid := s.GetUserID()
 	lostPlayer := world.GetPlayer(uid)
@@ -75,6 +78,6 @@ func HandleDisconnect(s *zero.Session, err error) {
 }
 
 // HandleConnect 处理网络连接
-func HandleConnect(s *zero.Session) {
+func (game *Game) HandleConnect(s *zero.Session) {
 	log.Println(s.GetConn().GetName() + " connected.")
 }

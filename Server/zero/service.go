@@ -3,6 +3,7 @@ package zero
 import (
 	"context"
 	"errors"
+	"fmt"
 	"net"
 	"sync"
 	"time"
@@ -95,6 +96,7 @@ func (s *SocketService) acceptHandler(ctx context.Context) {
 }
 
 func (s *SocketService) connectHandler(ctx context.Context, c net.Conn) {
+	fmt.Println("[lcc] 000")
 	conn := NewConn(c, s.hbInterval, s.hbTimeout)
 	session := NewSession(conn)
 	s.sessions.Store(session.GetSessionID(), session)
