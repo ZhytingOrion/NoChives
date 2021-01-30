@@ -13,7 +13,8 @@ public class KeyController : MonoBehaviour
     void Start()
     {
         keySprite = this.transform.Find("key_pic").GetComponent<SpriteRenderer>();
-        keySprite.color = color;
+        //keySprite.color = color;
+        keySprite.sprite = DataTransfer.Instance.GetKeySprite(color);
     }
 
     // Update is called once per frame

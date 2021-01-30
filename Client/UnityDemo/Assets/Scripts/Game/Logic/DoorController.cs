@@ -20,7 +20,10 @@ public class DoorController : MonoBehaviour
             highlight = transform.Find("highlight").gameObject;
 
         if (highlight != null)
+        {
+            highlight.GetComponent<SpriteRenderer>().sprite = DataTransfer.Instance.GetDoorHLSprite(color);
             highlight.SetActive(false);
+        }
 
         if (door == null)
             door = transform.Find("door").gameObject;
@@ -30,19 +33,22 @@ public class DoorController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        highlight.GetComponent<SpriteRenderer>().color = new Color(color.r, color.g, color.b, alpha);
-        alpha += alphaDir * Time.deltaTime;
+        if (!CanBeOpen)
+            return;
+
+        //highlight.GetComponent<SpriteRenderer>().color = new Color(1,1,1, alpha);
+        //alpha += alphaDir * Time.deltaTime;
         
-        if(alpha < 0.0f)
-        {
-            alphaDir = 1;
-            alpha = 0.0f;
-        }
-        else if(alpha > 1.0f)
-        {
-            alphaDir = -1;
-            alpha = 0.0f;
-        }
+        //if(alpha < 0.0f)
+        //{
+        //    alphaDir = 1;
+        //    alpha = 0.0f;
+        //}
+        //else if(alpha > 1.0f)
+        //{
+        //    alphaDir = -1;
+        //    alpha = 0.0f;
+        //}
     }
 
     void OnTriggerEnter2D(Collider2D collidedObject)
@@ -52,7 +58,7 @@ public class DoorController : MonoBehaviour
             if (highlight != null && CanBeOpen)
             {
                 highlight.SetActive(true);
-                highlight.GetComponent<SpriteRenderer>().color = color;
+                //highlight.GetComponent<SpriteRenderer>().color = color;
             }
         }
     }
@@ -74,7 +80,8 @@ public class DoorController : MonoBehaviour
             highlight.SetActive(false);
         if(door!=null)
         {
-            door.GetComponent<SpriteRenderer>().color = color;
+            //door.GetComponent<SpriteRenderer>().color = color;
+            door.GetComponent<SpriteRenderer>().sprite = DataTransfer.Instance.GetDoorSprite(color);
         }
         CanBeOpen = false;
         return color;

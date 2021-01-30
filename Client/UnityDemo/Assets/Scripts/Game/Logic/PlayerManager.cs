@@ -7,6 +7,8 @@ public class PlayerManager : MonoBehaviour
 {
     public static PlayerManager Instance = null;
 
+    public bool isLogin = false;
+
     public List<Color> collectedColor = new List<Color>();
     public List<Color> collectedKeys = new List<Color>();
     public string playerName;

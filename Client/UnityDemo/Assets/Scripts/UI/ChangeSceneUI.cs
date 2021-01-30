@@ -32,4 +32,9 @@ public class ChangeSceneUI : MonoBehaviour
     {
         PlayerManager.Instance.SetPlayerName(text.text);
     }
+
+    public void SetDefaultPic(Sprite sprite)
+    {
+        this.GetComponent<Image>().sprite = sprite;
+    }
 }

@@ -103,6 +103,8 @@ public class GamePlayer : MonoBehaviour
 
     public void CollectAKey(Color color)
     {
+        if (collectedKeys.Contains(color))
+            return;
         collectedKeys.Add(color);
 
         Destroy(inKeyController.gameObject);
@@ -116,6 +118,8 @@ public class GamePlayer : MonoBehaviour
 
     public bool OpenADoor(Color color)
     {
+        if (collectedColors.Contains(color))
+            return false;
         if(collectedKeys.Contains(color) && inDoorController.CanBeOpen)
         {
             collectedKeys.Remove(color);
@@ -139,12 +143,9 @@ public class GamePlayer : MonoBehaviour
             AimController ac = collidedObject.GetComponent<AimController>();
             if (ac == null)
                 return;
-            collectedColors.Add(ac.color);
-            PlayerManager.Instance.SyncPlayerState(this);
+            ac.HoldBottle(this.transform);
 
             pauseMove = true;
-            //send message
-
         }
 
         else if(collidedObject.gameObject.layer == LayerMask.NameToLayer("Key"))
@@ -185,6 +186,13 @@ public class GamePlayer : MonoBehaviour
                 LevelCanvas.GetComponent<GlobalCanvasUI>().HideUsefulKey();
             }
         }
+    }
+
+    public void CollectAim(AimController ac)
+    {
+        if (!collectedColors.Contains(ac.color))
+            collectedColors.Add(ac.color);
+        PlayerManager.Instance.SyncPlayerState(this);
     }
 
     public void PassLevel()
