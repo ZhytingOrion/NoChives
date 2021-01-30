@@ -5,6 +5,7 @@ type Player struct {
 	Name     string        `json:"name"`
 	NextProcess int        `json:"nextProcess"`
 	Colors    []int         `json:"colors"`
+	Keys      []int         `json:"keys"`   //拥有的钥匙。颜色一样的钥匙只能拥有一把
 }
 
 type RoomInfo struct {
