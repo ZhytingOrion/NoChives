@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GamePlayer : MonoBehaviour
 {
@@ -14,8 +15,23 @@ public class GamePlayer : MonoBehaviour
     private float jumpTimeLimit = 0.35f;
     private float jumpTimeLeft = 0.2f;
 
+    public KeyCode Key_Collect;
+    public KeyCode Key_Open;
+    public KeyCode Key_MoveObj;
+
     public List<Color> collectedColors = new List<Color>();
+    public List<Color> collectedKeys = new List<Color>();
     private bool pauseMove = false;
+    public TextMesh playerName;
+
+    //key and door
+    private bool isInKey = false;
+    KeyController inKeyController = null;
+    private bool isInDoor = false;
+    DoorController inDoorController = null;
+
+    //Canvas
+    GameObject LevelCanvas = null;
 
     void Start()
     {
@@ -25,6 +41,8 @@ public class GamePlayer : MonoBehaviour
             anim = this.GetComponent<Animator>();
         leftJumpNum = MaxJumpNum;
         jumpTimeLeft = -1.0f;
+
+        LevelCanvas = GameObject.Find("LevelCanvas");
     }
 
     void Update()
@@ -51,7 +69,7 @@ public class GamePlayer : MonoBehaviour
         rig.velocity = new Vector2(horizontalmove * speed, rig.velocity.y);
         if (horizontalmove != 0)
         {
-            transform.localScale = new Vector3(horizontalmove, 1, 1); // 控制角色转身
+            transform.Find("Body").localScale = new Vector3(horizontalmove, 1, 1); // 控制角色转身
         }
         anim.SetFloat("walkSpeed", Mathf.Abs(horizontalmove));
 
@@ -63,6 +81,55 @@ public class GamePlayer : MonoBehaviour
             anim.SetBool("isJumpping", true);
         }
 
+        //key and door
+        if(isInKey)
+        {
+            if(Input.GetKeyDown(Key_Collect) && inKeyController!=null)
+            {
+                CollectAKey(inKeyController.color);
+            }
+        }
+        
+        if(isInDoor)
+        {
+            if(Input.GetKeyDown(Key_Open) && inDoorController!=null)
+            {
+                if (OpenADoor(inDoorController.color))
+                    inDoorController.OnOpened();
+            }
+        }
+
+    }
+
+    public void CollectAKey(Color color)
+    {
+        collectedKeys.Add(color);
+
+        Destroy(inKeyController.gameObject);
+        isInKey = false;
+        inKeyController = null;
+
+        PlayerManager.Instance.SyncPlayerState(this);
+
+        //send message
+    }
+
+    public bool OpenADoor(Color color)
+    {
+        if(collectedKeys.Contains(color) && inDoorController.CanBeOpen)
+        {
+            collectedKeys.Remove(color);
+            collectedColors.Add(color);
+
+            PlayerManager.Instance.SyncPlayerState(this);
+            if (LevelCanvas != null)
+                LevelCanvas.GetComponent<GlobalCanvasUI>().HideUsefulKey();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     void OnTriggerEnter2D(Collider2D collidedObject)
@@ -73,10 +140,50 @@ public class GamePlayer : MonoBehaviour
             if (ac == null)
                 return;
             collectedColors.Add(ac.color);
+            PlayerManager.Instance.SyncPlayerState(this);
 
             pauseMove = true;
             //send message
 
+        }
+
+        else if(collidedObject.gameObject.layer == LayerMask.NameToLayer("Key"))
+        {
+            isInKey = true;
+            inKeyController = collidedObject.GetComponent<KeyController>();
+        }
+
+        else if(collidedObject.gameObject.layer == LayerMask.NameToLayer("Door"))
+        {
+            isInDoor = true;
+            inDoorController = collidedObject.GetComponent<DoorController>();
+            if(collectedKeys.Contains(inDoorController.color))
+            {
+                if (LevelCanvas != null)
+                {
+                    GlobalCanvasUI lc = LevelCanvas.GetComponent<GlobalCanvasUI>();
+                    lc.ShowUsefulKey(inDoorController.color);
+                }
+            }
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D collidedObject)
+    {
+        if (collidedObject.gameObject.layer == LayerMask.NameToLayer("Key"))
+        {
+            isInKey = false;
+            inKeyController = null;
+        }
+
+        else if(collidedObject.gameObject.layer == LayerMask.NameToLayer("Door"))
+        {
+            isInDoor = false;
+            inDoorController = null;
+            if(LevelCanvas!=null)
+            {
+                LevelCanvas.GetComponent<GlobalCanvasUI>().HideUsefulKey();
+            }
         }
     }
 

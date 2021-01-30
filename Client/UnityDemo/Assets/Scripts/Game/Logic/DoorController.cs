@@ -8,6 +8,7 @@ public class DoorController : MonoBehaviour
     public Color color;
     public GameObject highlight = null;
     public GameObject door = null;
+    public bool CanBeOpen = true;
 
     private float alpha = 1.0f;
     private int alphaDir = -1;
@@ -48,7 +49,7 @@ public class DoorController : MonoBehaviour
     {
         if(collidedObject.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            if (highlight != null)
+            if (highlight != null && CanBeOpen)
             {
                 highlight.SetActive(true);
                 highlight.GetComponent<SpriteRenderer>().color = color;
@@ -75,6 +76,7 @@ public class DoorController : MonoBehaviour
         {
             door.GetComponent<SpriteRenderer>().color = color;
         }
+        CanBeOpen = false;
         return color;
     }
 }

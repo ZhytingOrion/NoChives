@@ -27,4 +27,9 @@ public class ChangeSceneUI : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void SetPlayerName(Text text)
+    {
+        PlayerManager.Instance.SetPlayerName(text.text);
+    }
 }
