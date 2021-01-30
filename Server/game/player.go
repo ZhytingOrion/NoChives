@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"math/rand"
 
-	"zero"
+	"Server/zero"
 )
 
 // Player Player
