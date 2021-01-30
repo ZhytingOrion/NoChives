@@ -9,7 +9,7 @@ public class NetworkManager : MonoBehaviour
     public static NetworkManager Instance = null;
 
     public string host = "127.0.0.1";
-    public int port = 18787;
+    public int port = 3344;
 
     public Queue<Message> m_msgQueue = new Queue<Message>();
     // for queue

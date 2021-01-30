@@ -20,7 +20,7 @@ public class NotificationCenter : MonoBehaviour
             Destroy(gameObject);
         }
 
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
     }
 
     public void AddEventListener(NotificationType type, NotificationHandler listener)

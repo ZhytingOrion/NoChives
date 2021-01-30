@@ -31,47 +31,47 @@ public class GameManager : MonoBehaviour
     {
         ResponseJoin data = arg.GetValue<ResponseJoin>();
         PlayerData self = data.self;
-        hero = CreatePlayer(self.x, self.y, self.playerID, self.type);
+        //hero = CreatePlayer(self.x, self.y, self.playerID, self.type);
 
-        foreach (PlayerData pdata in data.list)
-        {
-            players.Add(pdata.playerID, CreatePlayer(pdata.x, pdata.y, pdata.playerID, pdata.type));
-        }
+        //foreach (PlayerData pdata in data.list)
+        //{
+        //    players.Add(pdata.playerID, CreatePlayer(pdata.x, pdata.y, pdata.playerID, pdata.type));
+        //}
     }
 
     void OnBroadcastMove(NotificationArg arg)
     {
         BroadcastMove data = arg.GetValue<BroadcastMove>();
 
-        if (players.ContainsKey(data.playerID))
-        {
-            var p = players[data.playerID];
-            p.GetComponent<Player>().MoveTo(data.x, data.y);
-        }
+        //if (players.ContainsKey(data.playerID))
+        //{
+        //    var p = players[data.playerID];
+        //    p.GetComponent<Player>().MoveTo(data.x, data.y);
+        //}
     }
 
     void OnBroadcastJoin(NotificationArg arg)
     {
         BroadcastJoin data = arg.GetValue<BroadcastJoin>();
-        var p = CreatePlayer(data.x, data.y, data.playerID, data.type);
-        players.Add(data.playerID, p);
+        //var p = CreatePlayer(data.x, data.y, data.playerID, data.type);
+        //players.Add(data.playerID, p);
     }
 
     void OnBroadcastLeave(NotificationArg arg)
     {
         BroadcastLeave data = arg.GetValue<BroadcastLeave>();
 
-        if (players.ContainsKey(data.playerID))
-        {
-            var p = players[data.playerID];
-            Destroy(p);
-        }
+        //if (players.ContainsKey(data.playerID))
+        //{
+        //    var p = players[data.playerID];
+        //    Destroy(p);
+        //}
     }
 
     void OnTouchMap(NotificationArg arg)
     {
         Vector3 targetPos = arg.GetValue<Vector3>();
-        hero.GetComponent<Player>().MoveTo(targetPos.x, targetPos.z);
+        //hero.GetComponent<Player>().MoveTo(targetPos.x, targetPos.z);
 
         NetworkManager.Instance.SendMove((int)targetPos.x, (int)targetPos.z, hero.GetComponent<Player>().ID);
     }
