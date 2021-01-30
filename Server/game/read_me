@@ -9,14 +9,14 @@ type Player struct {
 }
 
 type RoomInfo struct {
-     ResourceRand int                // 瓶子随机值
-     Partners []Partner      // 同一个关卡其他玩家的位置
+     ResourceRand int      `json:"resourceRand"`          // 瓶子随机值
+     Partners []Partner     `json:"partners"`      // 同一个关卡其他玩家的位置
 }
 
 type Partner struct {
-    Name string
-    X     float
-    Y     float
+    Name string         `json:"name"`
+    X     float         `json:"x"`
+    Y     float         `json:"y"`
 }
 
 const (
@@ -24,12 +24,19 @@ const (
 	MultiPlayer = 2   // 多人模式
 )
 
+
+type ResponseRegOrLogIn struct {
+	player *Player   `json:"player"`
+	ret bool          `json:"ret"`
+}
+
+
 // 我需要x，y坐标的选点。
 
 请求注册： 1    RequestRegister(name string)
-         2    ResponseRegister (player *Player, ok bool)    玩家信息、是否注册成功
+         2    ResponseRegister (info ResponseRegOrLogIn)    玩家信息、是否注册成功
 请求登录  3     RequestLoginIn（name string）
-         4    ResponseLoginIn(player *Player, ok bool)      玩家信息、是否登录成功
+         4    ResponseLoginIn(info ResponseRegOrLogIn)      玩家信息、是否登录成功
 
 进入游戏  5    RequestStartGame(name string, mode int32)     名字 单人模式/多人
          6    ResponseJoinRoom(roomInfo RoomInfo)  瓶子随机值，其他玩家坐标
@@ -37,13 +44,13 @@ const (
          18   BroadcastJoinRoom(name string) 仅在多人模式下,   进入关卡的玩家
 
 
-请求移动  11   RequestMove(x float, y float, name string)      玩家坐标，玩家名字      单人模式下客户端不必给服务器发此请求
-        12    BroadcastMove(x float, y float, name string)   移动的玩家坐标，名字
+请求移动  11   RequestMove(partner Partner)      玩家坐标，玩家名字      单人模式下客户端不必给服务器发此请求
+        12    BroadcastMove(partner Partner)   移动的玩家坐标，名字
 
 拿到颜色  13    RequestGetColor(name string)
          14    BroadcastGetColor(name string)    拿到颜色的玩家名字  仅在多人模式下，服务器才会向客户端发此广播
 
-进入下一关 15   RequestJoinRoom(name string, roomId int, LastRoomId int)
+进入下一关 15   RequestJoinRoom(name string, roomId int, LastRoomId int)  玩家姓名 房间id 退出房间id
          6    ResponseJoinRoom(roomInfo RoomInfo)  瓶子随机值，其他玩家坐标
          16   BroadcastLeaveRoom(name string)      仅在多人模式下，  退出关卡的玩家
          17   BroadcastJoinRoom(name string)      仅在多人模式下,   进入关卡的玩家

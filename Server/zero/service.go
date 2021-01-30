@@ -96,7 +96,7 @@ func (s *SocketService) acceptHandler(ctx context.Context) {
 }
 
 func (s *SocketService) connectHandler(ctx context.Context, c net.Conn) {
-	fmt.Println("[lcc] 000")
+	fmt.Println("[connectHandler] 客户端成功连接服务器")
 	conn := NewConn(c, s.hbInterval, s.hbTimeout)
 	session := NewSession(conn)
 	s.sessions.Store(session.GetSessionID(), session)

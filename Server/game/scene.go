@@ -2,6 +2,7 @@ package game
 
 import (
 	"Server/zero"
+	"fmt"
 	"sync"
 )
 
@@ -44,6 +45,7 @@ func (g *Game) respUserRegister(name string, s *zero.Session) {
 	}
 	message := zero.NewMessage(ResponseRegister, ret.ToJSON())
 	s.GetConn().SendMessage(message)
+	fmt.Printf("[respUserRegister]  success name:%v result:%v", name, ret)
 }
 
 func (g *Game) respUserLoginIn(name string, s *zero.Session) {
@@ -54,6 +56,7 @@ func (g *Game) respUserLoginIn(name string, s *zero.Session) {
 	}
 	message := zero.NewMessage(ResponseLogIn, ret.ToJSON())
 	s.GetConn().SendMessage(message)
+	fmt.Printf("[respUserLoginIn] success name:%v result:%v", name, ret)
 }
 
 

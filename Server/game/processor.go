@@ -10,12 +10,13 @@ import (
 // HandleMessage 处理网络请求
 func (game *Game) HandleMessage(s *zero.Session, msg *zero.Message) {
 	msgID := msg.GetID()
-
+	fmt.Printf("[HandleMessage] 处理网络请求 消息号 %v", msgID)
 	switch msgID {
 	case RequestRegister:
 		var f interface{}
 		err := json.Unmarshal(msg.GetData(), &f)
 		if err != nil {
+			fmt.Printf("json.Unmarshal failed err:%v msgID:%v", err, msgID)
 			return
 		}
 		m := f.(map[string]interface{})
@@ -26,6 +27,7 @@ func (game *Game) HandleMessage(s *zero.Session, msg *zero.Message) {
 		var f interface{}
 		err := json.Unmarshal(msg.GetData(), &f)
 		if err != nil {
+			fmt.Printf("json.Unmarshal failed err:%v msgID:%v", err, msgID)
 			return
 		}
 		m := f.(map[string]interface{})
@@ -72,7 +74,7 @@ func (game *Game) HandleDisconnect(s *zero.Session, err error) {
 
 	world.RemovePlayer(uid)
 	for _, p := range world.GetPlayerList() {
-		message := zero.NewMessage(BroadcastLeave, lostPlayer.ToJSON())
+		message := zero.NewMessage(BroadcastLeaveRoom, lostPlayer.ToJSON())
 		p.Session.GetConn().SendMessage(message)
 	}
 }
