@@ -5,13 +5,10 @@ using UnityEngine;
 [Serializable]
 public class PlayerData
 {
-    public string playerID;
     public string name;
-    public float x;
-    public float y;
-    public int type;
     public int nextProcess;
     public int[] colors;
+    public int[] keys;
 }
 
 [Serializable]

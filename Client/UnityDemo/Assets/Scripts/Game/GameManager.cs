@@ -32,10 +32,10 @@ public class GameManager : MonoBehaviour
     void OnResponseRegister(NotificationArg arg)
     {
         ResponseRegister data = arg.GetValue<ResponseRegister>();
-        if (data.isSuccess)
+        if (data.info.ret)
         {
             Debug.Log("注册成功");
-            PlayerData self = data.self;
+            PlayerData self = data.info.player;
             PlayerManager.Instance.playerName = self.name;
             PlayerManager.Instance.collectedColor.Clear();
             for (int i = 0; i < self.colors.Length; i++)
@@ -50,10 +50,10 @@ public class GameManager : MonoBehaviour
     void OnResponseLogin(NotificationArg arg)
     {
         ResponseLogin data = arg.GetValue<ResponseLogin>();
-        if (data.isSuccess)
+        if (data.info.ret)
         {
             Debug.Log("登录成功");
-            PlayerData self = data.self;
+            PlayerData self = data.info.player;
             PlayerManager.Instance.playerName = self.name;
             PlayerManager.Instance.collectedColor.Clear();
             for (int i = 0; i < self.colors.Length; i++)

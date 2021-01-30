@@ -4,11 +4,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
+public class ResponseRegOrLogInData
+{
+    public PlayerData player;
+    public bool ret;
+}
+
+[Serializable]
 public class ResponseRegister : BaseMsg
 {
     //public List<PlayerData> list;
-    public PlayerData self;
-    public bool isSuccess;
+    public ResponseRegOrLogInData info;
 
     public ResponseRegister() : base(MsgID.ResponseRegister)
     {
@@ -20,8 +26,7 @@ public class ResponseRegister : BaseMsg
 
         ResponseRegister jsonData = JsonUtility.FromJson<ResponseRegister>(jsonString);
         //this.list = jsonData.list;
-        this.self = jsonData.self;
-        this.isSuccess = jsonData.isSuccess;
+        this.info = jsonData.info;
     }
 
     public override byte[] ToData()

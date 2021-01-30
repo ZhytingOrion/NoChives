@@ -50,8 +50,8 @@ public class GamePlayer : MonoBehaviour
         if(!pauseMove)
             Move();
 
-        if (pauseMove && Input.GetKeyDown(KeyCode.P))
-            PassLevel();
+        //if (pauseMove && Input.GetKeyDown(KeyCode.P))
+        //    PassLevel();
     }
 
     void Move()
@@ -62,14 +62,14 @@ public class GamePlayer : MonoBehaviour
         if (rig.velocity.y.Equals(0.0f))
         {
             leftJumpNum = MaxJumpNum;
-            anim.SetBool("isJumpping", false);
+            //anim.SetBool("isJumpping", false);
         }
 
         float horizontalmove = Input.GetAxisRaw("Horizontal"); // 从 input manager 接收“水平”输入的值。
         rig.velocity = new Vector2(horizontalmove * speed, rig.velocity.y);
         if (horizontalmove != 0)
         {
-            transform.Find("Body").localScale = new Vector3(horizontalmove, 1, 1); // 控制角色转身
+            transform.Find("Body").localScale = new Vector3(-horizontalmove, 1, 1); // 控制角色转身
         }
         anim.SetFloat("walkSpeed", Mathf.Abs(horizontalmove));
 
@@ -78,7 +78,8 @@ public class GamePlayer : MonoBehaviour
             rig.AddForce(new Vector2(0, jumpSpeed));
             leftJumpNum--;
             jumpTimeLeft = jumpTimeLimit;
-            anim.SetBool("isJumpping", true);
+            //anim.SetBool("isJumpping", true);
+            anim.SetTrigger("isJumpping");
         }
 
         //key and door
@@ -145,6 +146,8 @@ public class GamePlayer : MonoBehaviour
                 return;
             ac.HoldBottle(this.transform);
 
+            anim.SetTrigger("isGetBottle");
+
             pauseMove = true;
         }
 
@@ -193,6 +196,8 @@ public class GamePlayer : MonoBehaviour
         if (!collectedColors.Contains(ac.color))
             collectedColors.Add(ac.color);
         PlayerManager.Instance.SyncPlayerState(this);
+
+        PassLevel();
     }
 
     public void PassLevel()

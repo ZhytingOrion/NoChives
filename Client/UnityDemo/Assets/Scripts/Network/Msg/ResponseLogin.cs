@@ -7,8 +7,9 @@ using UnityEngine;
 public class ResponseLogin : BaseMsg
 {
     //public List<PlayerData> list;
-    public PlayerData self;
-    public bool isSuccess;
+    //public PlayerData player;
+    //public bool ret;
+    public ResponseRegOrLogInData info;
 
     public ResponseLogin() : base(MsgID.ResponseLoginIn)
     {
@@ -20,8 +21,9 @@ public class ResponseLogin : BaseMsg
 
         ResponseLogin jsonData = JsonUtility.FromJson<ResponseLogin>(jsonString);
         //this.list = jsonData.list;
-        this.self = jsonData.self;
-        this.isSuccess = jsonData.isSuccess;
+        //this.player = jsonData.player;
+        //this.ret = jsonData.ret;
+        this.info = jsonData.info;
     }
 
     public override byte[] ToData()
