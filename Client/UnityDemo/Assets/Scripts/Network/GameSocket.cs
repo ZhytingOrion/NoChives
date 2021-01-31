@@ -155,6 +155,9 @@ public class GameSocket
                 int msgID = reader.ReadInt32();
                 byte[] data = reader.ReadBytes(size - 8);
                 uint checksum = reader.ReadUInt32();
+                Debug.Log("read message");
+                Debug.Log("msgID " + msgID + " size " + data.Length);
+                Debug.Log(System.Text.Encoding.ASCII.GetString(data));
 
                 Message msg = new Message();
                 msg.Size = size;
