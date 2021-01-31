@@ -69,14 +69,14 @@ public class NetworkManager : MonoBehaviour
                 }
             case MsgID.ResponseJoinRoom:
                 {
-                    ResponseJoin data = new ResponseJoin();
+                    ResponseJoinRoom data = new ResponseJoinRoom();
                     data.FromMessage(msg);
                     NotificationCenter.Instance.PushEvent(NotificationType.Network_OnResponseJoinRoom, data);
                     break;
                 }
 
 
-            case MsgID.Broadcast_Move:
+            case MsgID.BroadcastMove:
                 {
                     BroadcastMove data = new BroadcastMove();
                     data.FromMessage(msg);

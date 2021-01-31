@@ -6,7 +6,7 @@ public class BroadcastJoinRoom : BaseMsg
     public string name;
     
 
-    public BroadcastJoinRoom() : base(MsgID.Broadcast_Leave)
+    public BroadcastJoinRoom() : base(MsgID.BroadcastJoinRoom)
     {
     }
 

@@ -6,7 +6,7 @@ public class BroadcastGetColor : BaseMsg
     public string name;
     
 
-    public BroadcastGetColor() : base(MsgID.Broadcast_Leave)
+    public BroadcastGetColor() : base(MsgID.BroadcastGetColor)
     {
     }
 

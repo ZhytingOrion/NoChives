@@ -7,7 +7,7 @@ public class BroadcastMove : BaseMsg
     public float x;
     public float y;
 
-    public BroadcastMove() : base(MsgID.Broadcast_Move)
+    public BroadcastMove() : base(MsgID.BroadcastMove)
     {
     }
 

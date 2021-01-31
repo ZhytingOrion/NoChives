@@ -1,18 +1,33 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResponseJoinRoom : MonoBehaviour
+[Serializable]
+public class ResponseJoinRoom : BaseMsg
 {
-    // Start is called before the first frame update
-    void Start()
+    public int resourceRand;
+    public float[] positionX;
+    public float[] positionY;
+    public string[]  names;
+
+    public ResponseJoinRoom() : base(MsgID.ResponseJoinRoom)
     {
-        
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void FromData(byte[] data)
     {
-        
+        var jsonString = System.Text.Encoding.Default.GetString(data);
+
+        ResponseJoinRoom jsonData = JsonUtility.FromJson<ResponseJoinRoom>(jsonString);
+        this.resourceRand = jsonData.resourceRand;
+        this.positionX = jsonData.positionX;
+        this.positionY = jsonData.positionY;
+        this.names = jsonData.names;
+    }
+
+    public override byte[] ToData()
+    {
+        return new byte[0];
     }
 }

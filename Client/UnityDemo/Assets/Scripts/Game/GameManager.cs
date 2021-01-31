@@ -80,8 +80,8 @@ public class GameManager : MonoBehaviour
 
     void OnResponseJoinRoom(NotificationArg arg)
     {
-        ResponseJoin data = arg.GetValue<ResponseJoin>();
-        PlayerData self = data.self;
+        ResponseJoinRoom data = arg.GetValue<ResponseJoinRoom>();
+        //PlayerData self = data.self;
         //hero = CreatePlayer(self.x, self.y, self.playerID, self.type);
 
         //foreach (PlayerData pdata in data.list)
@@ -103,7 +103,7 @@ public class GameManager : MonoBehaviour
 
     void OnBroadcastJoinRoom(NotificationArg arg)
     {
-        BroadcastJoin data = arg.GetValue<BroadcastJoin>();
+        BroadcastJoinRoom data = arg.GetValue<BroadcastJoinRoom>();
         //var p = CreatePlayer(data.x, data.y, data.playerID, data.type);
         //players.Add(data.playerID, p);
     }

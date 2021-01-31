@@ -7,7 +7,7 @@ public class RequestMove : BaseMsg
     public float y;
     public string name;
 
-    public RequestMove() : base(MsgID.Request_Move)
+    public RequestMove() : base(MsgID.RequestMove)
     {
     }
 

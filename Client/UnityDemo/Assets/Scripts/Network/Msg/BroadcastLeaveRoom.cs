@@ -6,7 +6,7 @@ public class BroadcastLeaveRoom : BaseMsg
     public string name;
     
 
-    public BroadcastLeaveRoom() : base(MsgID.Broadcast_Leave)
+    public BroadcastLeaveRoom() : base(MsgID.BroadcastLeaveRoom)
     {
     }
 
