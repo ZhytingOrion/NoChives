@@ -34,6 +34,17 @@ func (game *Game) HandleMessage(s *zero.Session, msg *zero.Message) {
 		name := m["name"].(string)
 		game.respUserLoginIn(name, s)
 		break
+	case RequestStartGame:
+		var f interface{}
+		err := json.Unmarshal(msg.GetData(), &f)
+		if err != nil {
+			fmt.Printf("json.Unmarshal failed err:%v msgID:%v", err, msgID)
+			return
+		}
+		m := f.(map[string]interface{})
+		name := m["name"].(string)
+		//mode := m["mode"].(int)
+		game.respUserLoginIn(name, s)
 	default:
 		fmt.Printf("未知的消息id %v", msgID)
 /*

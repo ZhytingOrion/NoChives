@@ -30,6 +30,19 @@ type ResponseRegOrLogIn struct {
 	ret bool          `json:"ret"`
 }
 
+// 楼上废弃
+////////////////////////
+// 楼下才是新的
+
+type ResponseRegOrLogIn struct {
+	Name     string        `json:"name"`
+	Type     int           `json:"type"`
+	NextProcess int        `json:"nextProcess"`
+	Colors    []int         `json:"colors"`
+	Keys      []int          `json:"keys"`
+	Ret bool                `json:"ret"`
+}
+
 
 // 我需要x，y坐标的选点。
 

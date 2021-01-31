@@ -1,5 +1,7 @@
 package game
 
+import "sync"
+
 // 思路：
 // 服务器保存一个玩家列表， 相当于一张玩家注册表。包含所有玩家  名字和id
 // 分为单人房间和多人房间
@@ -16,10 +18,11 @@ func init() {
 	world = CreateDynamic()
 }
 
+
 // CreateWorld 创建世界
 func CreateDynamic() *DynamicRoom {
 	world := &DynamicRoom{
-		players: make(map[string]*Player),
+		players: &sync.Map{},
 	}
 
 	return world
@@ -32,16 +35,16 @@ func (w *DynamicRoom) AddPlayer(p *Player) {
 
 // RemovePlayer 移除玩家
 func (w *DynamicRoom) RemovePlayer(id string) {
-	if _, ok := w.players[id]; ok {
-		delete(w.players, id)
-	}
+	//if _, ok := w.players[id]; ok {
+	//	delete(w.players, id)
+	//}
 }
 
 // GetPlayer 获取玩家
 func (w *DynamicRoom) GetPlayer(id string) *Player {
-	if v, ok := w.players[id]; ok {
-		return v
-	}
+	//if v, ok := w.players[id]; ok {
+	//	return v
+	//}
 
 	return nil
 }
@@ -49,8 +52,9 @@ func (w *DynamicRoom) GetPlayer(id string) *Player {
 // GetPlayerList 获取全部玩家
 func (w *DynamicRoom) GetPlayerList() []*Player {
 	list := make([]*Player, 0)
-	for _, p := range w.players {
-		list = append(list, p)
-	}
+	//for _, p := range w.players {
+	//	list = append(list, p)
+	//}
 	return list
 }
+
