@@ -6,6 +6,7 @@
     Broadcast_Move = 104,
     Broadcast_Join = 105,
     Broadcast_Leave = 106,
+
     RequestRegister = 1,
     ResponseRegister = 2,
     RequestLoginIn = 3,
@@ -19,5 +20,7 @@
     RequestJoinRoom = 15,
     BroadcastLeaveRoom = 16,
     BroadcastJoinRoom = 17,
+    RequestGetKey = 18,
+    RequestQuitGame = 19,
 }
 

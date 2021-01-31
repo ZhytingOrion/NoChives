@@ -50,7 +50,7 @@ func (g *Game) respUserRegister(name string, s *zero.Session) {
 	}
 	message := zero.NewMessage(ResponseRegister, ret.ToJSON())
 	s.GetConn().SendMessage(message)
-	fmt.Printf("[respUserRegister]  success name:%v result:%v", name, ret)
+	fmt.Printf("[respUserRegister]  success name:%v result:%v\n", name, ret)
 }
 
 // respUserLoginIn 回复客户端登录
@@ -66,22 +66,22 @@ func (g *Game) respUserLoginIn(name string, s *zero.Session) {
 	}
 	message := zero.NewMessage(ResponseLogIn, ret.ToJSON())
 	s.GetConn().SendMessage(message)
-	fmt.Printf("[respUserLoginIn] success name:%v result:%v", name, ret)
+	fmt.Printf("[respUserLoginIn] success name:%v result:%v\n", name, ret)
 }
 
 // respUserStartGame 回复客户端进入游戏
 func (g *Game) respUserStartGame(name string, mode int) {
 	player, ok := g.userList.Load(name)
 	if !ok {
-		fmt.Printf("[respUserStartGame] 玩家不存在 %v", name)
+		fmt.Printf("[respUserStartGame] 玩家不存在 %v\n", name)
 		return
 	}
 	//更新玩家所玩模式
 	player.(*Player).Type = mode
 	// 如果是单人模式
 	var seed int
-	positionX := make([]float32, 0)
-	positionY := make([]float32, 0)
+	positionX := make([]float64, 0)
+	positionY := make([]float64, 0)
 	names := make([]string, 0)
 
 	switch mode {
@@ -101,13 +101,13 @@ func (g *Game) respUserStartGame(name string, mode int) {
 
 			message := zero.NewMessage(BroadcastJoinRoom, []byte(name))
 			value.(*Player).Session.GetConn().SendMessage(message)
-			fmt.Printf("[respUserJoinRoom] 广播进入房间 %v ", value.(*Player).Name)
+			fmt.Printf("[respUserJoinRoom] 广播进入房间 %v \n", value.(*Player).Name)
 			return true
 		}
 		dRoom.players.Range(f)
 		break
 	default:
-		fmt.Printf("[respUserStartGame] failed mode undefine %v", mode)
+		fmt.Printf("[respUserStartGame] failed mode undefine %v\n", mode)
 	}
 
 	ret := &RoomInfo{
@@ -118,14 +118,14 @@ func (g *Game) respUserStartGame(name string, mode int) {
 	}
 	message := zero.NewMessage(ResponseJoinRoom, ret.ToJSON())
 	player.(*Player).Session.GetConn().SendMessage(message)
-	fmt.Printf("[respUserStartGame] success name:%v result:%v", name, ret)
+	fmt.Printf("[respUserStartGame] success name:%v result:%v\n", name, ret)
 }
 
 // respUserMove 回复客户端移动同步
-func (g *Game) respUserMove(name string, x float32, y float32) {
+func (g *Game) respUserMove(name string, x float64, y float64) {
 	player, ok := g.userList.Load(name)
 	if !ok {
-		fmt.Printf("[respUserMove] 玩家不存在 %v", name)
+		fmt.Printf("[respUserMove] 玩家不存在 %v\n", name)
 		return
 	}
 	player.(*Player).X = x
@@ -143,14 +143,14 @@ func (g *Game) respUserMove(name string, x float32, y float32) {
 	}
 	message := zero.NewMessage(BroadcastMove, ret.ToJSON())
 	player.(*Player).Session.GetConn().SendMessage(message)
-	fmt.Printf("[respUserJoinRoom] BroadcastMove success %v ", name)
+	fmt.Printf("[respUserJoinRoom] BroadcastMove success %v \n", name)
 }
 
 // respUserGetColor 回复客户端拿到颜色
 func (g *Game) respUserGetColor(name string, color int) {
 	player, ok := g.userList.Load(name)
 	if !ok {
-		fmt.Printf("[respUserMove] 玩家不存在 %v", name)
+		fmt.Printf("[respUserMove] 玩家不存在 %v\n", name)
 		return
 	}
 	player.(*Player).Colors = append(player.(*Player).Colors, color)
@@ -161,22 +161,34 @@ func (g *Game) respUserGetColor(name string, color int) {
 
 	message := zero.NewMessage(BroadcastGetColor, []byte(name))
 	player.(*Player).Session.GetConn().SendMessage(message)
-	fmt.Printf("[respUserJoinRoom] BroadcastGetColor success %v ", name)
+	fmt.Printf("[respUserJoinRoom] BroadcastGetColor success %v \n", name)
+}
+
+
+
+// respUserGetColor 回复客户端拿到颜色
+func (g *Game) respUserGetKey(name string, key int) {
+	player, ok := g.userList.Load(name)
+	if !ok {
+		fmt.Printf("[respUserMove] 玩家不存在 %v\n", name)
+		return
+	}
+	player.(*Player).Keys = append(player.(*Player).Colors, key)
 }
 
 // respUserJoinRoom 请求进入房间
 func (g *Game) respUserJoinRoom(name string, roomId int, lastRoomId int) {
 	player, ok := g.userList.Load(name)
 	if !ok {
-		fmt.Printf("[respUserMove] 玩家不存在 %v", name)
+		fmt.Printf("[respUserMove] 玩家不存在 %v\n", name)
 		return
 	}
 	player.(*Player).NextProcess = roomId
 	mode := player.(*Player).Type
 
 	var seed int
-	positionX := make([]float32, 0)
-	positionY := make([]float32, 0)
+	positionX := make([]float64, 0)
+	positionY := make([]float64, 0)
 	names := make([]string, 0)
 
 	switch mode {
@@ -195,13 +207,13 @@ func (g *Game) respUserJoinRoom(name string, roomId int, lastRoomId int) {
 			}
 			message := zero.NewMessage(BroadcastJoinRoom, []byte(name))
 			value.(*Player).Session.GetConn().SendMessage(message)
-			fmt.Printf("[respUserJoinRoom] 广播进入房间 %v %v", value.(*Player).Name, roomId)
+			fmt.Printf("[respUserJoinRoom] 广播进入房间 %v %v\n", value.(*Player).Name, roomId)
 			return true
 		}
 		dRoom.players.Range(f)
 		break
 	default:
-		fmt.Printf("[respUserStartGame] failed mode undefine %v", mode)
+		fmt.Printf("[respUserStartGame] failed mode undefine %v\n", mode)
 	}
 
 	ret := &RoomInfo{
@@ -212,7 +224,7 @@ func (g *Game) respUserJoinRoom(name string, roomId int, lastRoomId int) {
 	}
 	message := zero.NewMessage(ResponseJoinRoom, ret.ToJSON())
 	player.(*Player).Session.GetConn().SendMessage(message)
-	fmt.Printf("[respUserJoinRoom] ResponseJoinRoom success %v ", ret)
+	fmt.Printf("[respUserJoinRoom] ResponseJoinRoom success %v \n", ret)
 
 	if mode == SingleMode {
 		return
@@ -227,11 +239,41 @@ func (g *Game) respUserJoinRoom(name string, roomId int, lastRoomId int) {
 	f := func (key, value interface{}) bool {
 		message := zero.NewMessage(BroadcastLeaveRoom, []byte(name))
 		value.(*Player).Session.GetConn().SendMessage(message)
-		fmt.Printf("[respUserJoinRoom] 广播退出房间 %v %v", value.(*Player).Name, lastRoomId)
+		fmt.Printf("[respUserJoinRoom] 广播退出房间 %v %v\n", value.(*Player).Name, lastRoomId)
 		return true
 	}
 
 	val.(*DynamicRoom).players.Range(f)
+}
+
+
+// respQuitGame 请求退出游戏
+func (g *Game) respQuitGame(name string) {
+	player, ok := g.userList.Load(name)
+	if !ok {
+		fmt.Printf("[respQuitGame] 玩家不存在 %v\n", name)
+		return
+	}
+	g.userList.Delete(name)
+
+	mode := player.(*Player).Type
+	switch mode {
+	case SingleMode:
+		g.staticRooms.Delete(name)
+		break
+	case MultiPlayerMode:
+		level := player.(*Player).NextProcess
+		val, ok := g.dynamicRooms.Load(level)
+		if !ok {
+			fmt.Printf("[respQuitGame] 此多人房间不存在，失败 %v\n", level)
+			break
+		}
+		val.(*DynamicRoom).players.Delete(name)
+		break
+	}
+
+	g.userList.Delete(name)
+	fmt.Printf("[respQuitGame] 玩家销毁成功 %v\n", name)
 }
 
 

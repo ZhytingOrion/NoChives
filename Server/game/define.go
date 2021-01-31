@@ -39,6 +39,12 @@ const (
 
 	// BroadcastJoinRoom 广播加入房间
 	BroadcastJoinRoom int32 = 17
+
+	// RequestGetKey 广播加入房间
+	RequestGetKey int32 = 18
+
+	// RequestQuitGame 退出房间
+	RequestQuitGame int32 = 19
 )
 
 

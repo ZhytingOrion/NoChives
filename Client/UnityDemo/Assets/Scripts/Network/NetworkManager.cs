@@ -67,11 +67,11 @@ public class NetworkManager : MonoBehaviour
                     NotificationCenter.Instance.PushEvent(NotificationType.Network_OnResponseLogin, data);
                     break;
                 }
-            case MsgID.Response_Join:
+            case MsgID.ResponseJoinRoom:
                 {
                     ResponseJoin data = new ResponseJoin();
                     data.FromMessage(msg);
-                    NotificationCenter.Instance.PushEvent(NotificationType.Network_OnResponseJoin, data);
+                    NotificationCenter.Instance.PushEvent(NotificationType.Network_OnResponseJoinRoom, data);
                     break;
                 }
 
@@ -84,19 +84,19 @@ public class NetworkManager : MonoBehaviour
                     break;
                 }
 
-            case MsgID.Broadcast_Join:
+            case MsgID.BroadcastJoinRoom:
                 {
-                    BroadcastJoin data = new BroadcastJoin();
+                    BroadcastJoinRoom data = new BroadcastJoinRoom();
                     data.FromMessage(msg);
-                    NotificationCenter.Instance.PushEvent(NotificationType.Network_OnBroadcastJoin, data);
+                    NotificationCenter.Instance.PushEvent(NotificationType.Network_OnBroadcastJoinRoom, data);
                     break;
                 }
 
-            case MsgID.Broadcast_Leave:
+            case MsgID.BroadcastLeaveRoom:
                 {
-                    BroadcastLeave data = new BroadcastLeave();
+                    BroadcastLeaveRoom data = new BroadcastLeaveRoom();
                     data.FromMessage(msg);
-                    NotificationCenter.Instance.PushEvent(NotificationType.Network_OnBroadcastLeave, data);
+                    NotificationCenter.Instance.PushEvent(NotificationType.Network_OnBroadcastLeaveRoom, data);
                     break;
                 }
         }
@@ -148,20 +148,56 @@ public class NetworkManager : MonoBehaviour
         Debug.Log("发送注册消息" + username);
     }
 
-    public void SendJoin()
+    public void SendJoinRoom(string name, int roomId, int lastRoomId)
     {
-        var msg = new RequestJoin().ToMessage();
-        SendMessage(msg);
+        var msg = new RequestJoinRoom();
+        msg.name = name;
+        msg.roomId = roomId;
+        msg.lastRoomId = lastRoomId;
+        SendMessage(msg.ToMessage());
+        Debug.Log("发送进入下一关消息" + name + " " + roomId + " " + lastRoomId);
     }
 
-    public void SendMove(int x, int y, string playerID)
+    public void SendMove(int x, int y, string name)
     {
         var msg = new RequestMove();
-        msg.playerID = playerID;
+        msg.name = name;
         msg.x = x;
         msg.y = y;
 
         SendMessage(msg.ToMessage());
+        Debug.Log("发送移动消息" + name);
+    }
+
+     public void SendGetColor(string name, int color)
+    {
+        var msg = new RequestGetColor();
+        msg.name = name;
+        msg.color = color;
+
+        SendMessage(msg.ToMessage());
+         Debug.Log("发送获得颜色消息" + name + " " + color);
+    }
+
+
+    public void SendGetKey(string name, int key)
+    {
+        var msg = new RequestGetKey();
+        msg.name = name;
+        msg.key = key;
+
+        SendMessage(msg.ToMessage());
+         Debug.Log("发送获得钥匙消息" + name + " " + key);
+    }
+
+
+    public void SendQuitGame(string name, int key)
+    {
+        var msg = new RequestQuitGame();
+        msg.name = name;
+
+        SendMessage(msg.ToMessage());
+         Debug.Log("发送获得钥匙消息" + name + " " + key);
     }
 
     public void OnConnected(Message msg)

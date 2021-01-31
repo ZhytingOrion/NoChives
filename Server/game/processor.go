@@ -10,13 +10,13 @@ import (
 // HandleMessage 处理网络请求
 func (game *Game) HandleMessage(s *zero.Session, msg *zero.Message) {
 	msgID := msg.GetID()
-	fmt.Printf("[HandleMessage] 处理网络请求 消息号 %v", msgID)
+	fmt.Printf("[HandleMessage] 处理网络请求 消息号 %v\n", msgID)
 	switch msgID {
 	case RequestRegister:
 		var f interface{}
 		err := json.Unmarshal(msg.GetData(), &f)
 		if err != nil {
-			fmt.Printf("json.Unmarshal failed err:%v msgID:%v", err, msgID)
+			fmt.Printf("json.Unmarshal failed err:%v msgID:%v\n", err, msgID)
 			return
 		}
 		m := f.(map[string]interface{})
@@ -27,7 +27,7 @@ func (game *Game) HandleMessage(s *zero.Session, msg *zero.Message) {
 		var f interface{}
 		err := json.Unmarshal(msg.GetData(), &f)
 		if err != nil {
-			fmt.Printf("json.Unmarshal failed err:%v msgID:%v", err, msgID)
+			fmt.Printf("json.Unmarshal failed err:%v msgID:%v\n", err, msgID)
 			return
 		}
 		m := f.(map[string]interface{})
@@ -38,12 +38,12 @@ func (game *Game) HandleMessage(s *zero.Session, msg *zero.Message) {
 		var f interface{}
 		err := json.Unmarshal(msg.GetData(), &f)
 		if err != nil {
-			fmt.Printf("json.Unmarshal failed err:%v msgID:%v", err, msgID)
+			fmt.Printf("json.Unmarshal failed err:%v msgID:%v\n", err, msgID)
 			return
 		}
 		m := f.(map[string]interface{})
 		name := m["name"].(string)
-		mode := m["mode"].(int)
+		mode := int(m["mode"].(float64))
 		game.respUserStartGame(name, mode)
 	case RequestMove:
 		var f interface{}
@@ -52,8 +52,8 @@ func (game *Game) HandleMessage(s *zero.Session, msg *zero.Message) {
 			return
 		}
 		m := f.(map[string]interface{})
-		x := m["x"].(float32)
-		y := m["y"].(float32)
+		x := m["x"].(float64)
+		y := m["y"].(float64)
 		name := m["name"].(string)
 		game.respUserMove(name, x, y)
 		break
@@ -61,27 +61,48 @@ func (game *Game) HandleMessage(s *zero.Session, msg *zero.Message) {
 		var f interface{}
 		err := json.Unmarshal(msg.GetData(), &f)
 		if err != nil {
-			fmt.Printf("json.Unmarshal failed err:%v msgID:%v", err, msgID)
+			fmt.Printf("json.Unmarshal failed err:%v msgID:%v\n", err, msgID)
 			return
 		}
 		m := f.(map[string]interface{})
 		name := m["name"].(string)
-		color := m["color"].(int)
+		color := int(m["color"].(float64))
 		game.respUserGetColor(name, color)
+	case RequestGetKey:
+		var f interface{}
+		err := json.Unmarshal(msg.GetData(), &f)
+		if err != nil {
+			fmt.Printf("json.Unmarshal failed err:%v msgID:%v\n", err, msgID)
+			return
+		}
+		m := f.(map[string]interface{})
+		name := m["name"].(string)
+		key := int(m["key"].(float64))
+		game.respUserGetColor(name, key)
 	case RequestJoinRoom:
 		var f interface{}
 		err := json.Unmarshal(msg.GetData(), &f)
 		if err != nil {
-			fmt.Printf("json.Unmarshal failed err:%v msgID:%v", err, msgID)
+			fmt.Printf("json.Unmarshal failed err:%v msgID:%v\n", err, msgID)
 			return
 		}
 		m := f.(map[string]interface{})
 		name := m["name"].(string)
-		roomId  := m["roomId"].(int)
-		lastRoomId   := m["lastRoomId"].(int)
+		roomId  := int(m["roomId"].(float64))
+		lastRoomId   := int(m["lastRoomId"].(float64))
 		game.respUserJoinRoom(name, roomId, lastRoomId)
+	case RequestQuitGame:
+		var f interface{}
+		err := json.Unmarshal(msg.GetData(), &f)
+		if err != nil {
+			fmt.Printf("json.Unmarshal failed err:%v msgID:%v\n", err, msgID)
+			return
+		}
+		m := f.(map[string]interface{})
+		name := m["name"].(string)
+		game.respQuitGame(name)
 	default:
-		fmt.Printf("未知的消息id %v", msgID)
+		fmt.Printf("我们仍未知道那天客户端到底发了什么消息 id %v\n", msgID)
 	}
 }
 

@@ -9,8 +9,8 @@ import (
 // Player Player
 type Player struct {
 	Name     string        `json:"name"`
-	X        float32           `json:"x"`
-	Y        float32           `json:"y"`
+	X        float64           `json:"x"`
+	Y        float64           `json:"y"`
 	Type     int           `json:"type"`   // 多人模式还是单人模式
 	Session  *zero.Session `json:"-"`
 	NextProcess int        `json:"nextProcess"`
@@ -45,8 +45,8 @@ func (p *ResponseRegOrLogIn) ToJSON() []byte {
 // 回应玩家加入房间的数据结构
 type RoomInfo struct {
 	ResourceRand int      `json:"resourceRand"`          // 瓶子随机值
-	PositionX []float32      `json:"xs"`                   // 同一个关卡其他玩家的位置
-	PositionY []float32      `json:"ys"`
+	PositionX []float64      `json:"xs"`                   // 同一个关卡其他玩家的位置
+	PositionY []float64      `json:"ys"`
 	Names     []string     `json:"names"`
 }
 
@@ -60,8 +60,8 @@ func (p *RoomInfo) ToJSON() []byte {
 // 广播玩家位置的消息
 type Partner struct {
 	Name string         `json:"name"`
-	X     float32         `json:"x"`
-	Y     float32         `json:"y"`
+	X     float64         `json:"x"`
+	Y     float64         `json:"y"`
 }
 
 // ToJSON 转成json数据

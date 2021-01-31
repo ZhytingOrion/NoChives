@@ -1,14 +1,12 @@
 ﻿using UnityEngine;
 
 [System.Serializable]
-public class BroadcastLeave : BaseMsg
+public class BroadcastJoinRoom : BaseMsg
 {
-    public string playerID;
     public string name;
-    public int x;
-    public int y;
+    
 
-    public BroadcastLeave() : base(MsgID.Broadcast_Leave)
+    public BroadcastJoinRoom() : base(MsgID.Broadcast_Leave)
     {
     }
 
@@ -16,8 +14,8 @@ public class BroadcastLeave : BaseMsg
     {
         var jsonString = System.Text.Encoding.Default.GetString(data);
 
-        BroadcastLeave jsonData = JsonUtility.FromJson<BroadcastLeave>(jsonString);
-        this.playerID = jsonData.playerID;
+        BroadcastJoinRoom jsonData = JsonUtility.FromJson<BroadcastJoinRoom>(jsonString);
+        this.name = jsonData.name;
     }
 
     public override byte[] ToData()
@@ -25,4 +23,3 @@ public class BroadcastLeave : BaseMsg
         return new byte[0];
     }
 }
-

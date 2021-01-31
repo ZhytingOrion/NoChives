@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
 
 [System.Serializable]
-public class BroadcastMove : BaseMsg
+public class BroadcastGetColor : BaseMsg
 {
     public string name;
-    public float x;
-    public float y;
+    
 
-    public BroadcastMove() : base(MsgID.Broadcast_Move)
+    public BroadcastGetColor() : base(MsgID.Broadcast_Leave)
     {
     }
 
@@ -15,10 +14,8 @@ public class BroadcastMove : BaseMsg
     {
         var jsonString = System.Text.Encoding.Default.GetString(data);
 
-        BroadcastMove jsonData = JsonUtility.FromJson<BroadcastMove>(jsonString);
+        BroadcastGetColor jsonData = JsonUtility.FromJson<BroadcastGetColor>(jsonString);
         this.name = jsonData.name;
-        this.x = jsonData.x;
-        this.y = jsonData.y;
     }
 
     public override byte[] ToData()
@@ -26,4 +23,3 @@ public class BroadcastMove : BaseMsg
         return new byte[0];
     }
 }
-

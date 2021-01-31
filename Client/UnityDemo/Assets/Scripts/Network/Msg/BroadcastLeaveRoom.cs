@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
 
 [System.Serializable]
-public class BroadcastMove : BaseMsg
+public class BroadcastLeaveRoom : BaseMsg
 {
     public string name;
-    public float x;
-    public float y;
+    
 
-    public BroadcastMove() : base(MsgID.Broadcast_Move)
+    public BroadcastLeaveRoom() : base(MsgID.Broadcast_Leave)
     {
     }
 
@@ -15,10 +14,8 @@ public class BroadcastMove : BaseMsg
     {
         var jsonString = System.Text.Encoding.Default.GetString(data);
 
-        BroadcastMove jsonData = JsonUtility.FromJson<BroadcastMove>(jsonString);
+        BroadcastLeaveRoom jsonData = JsonUtility.FromJson<BroadcastLeaveRoom>(jsonString);
         this.name = jsonData.name;
-        this.x = jsonData.x;
-        this.y = jsonData.y;
     }
 
     public override byte[] ToData()

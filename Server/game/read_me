@@ -17,16 +17,16 @@ type ResponseRegOrLogIn struct {
 
 type RoomInfo struct {
      ResourceRand int      `json:"resourceRand"`          // 瓶子随机值
-     PositionX []float      `json:"xs"`                   // 同一个关卡其他玩家的位置
-     PositionY []float      `json:"ys"`
+     PositionX []float64      `json:"xs"`                   // 同一个关卡其他玩家的位置
+     PositionY []float64      `json:"ys"`
      Names     []string     `json:"names"`
 }
 
 
 type Partner struct {
 	Name string         `json:"name"`
-	X     float32         `json:"x"`
-	Y     float32         `json:"y"`
+	X     float64         `json:"x"`
+	Y     float64         `json:"y"`
 }
 
 // 我需要x，y坐标的选点。
@@ -53,10 +53,13 @@ type Partner struct {
          16   BroadcastLeaveRoom(name string)      仅在多人模式下，  退出关卡的玩家
          17   BroadcastJoinRoom(name string)      仅在多人模式下,   进入关卡的玩家
 
+拿到钥匙  18     RequestGetKey(name string, key int)   // 钥匙暂时也不能重复拿
 
 
 
- 网络断线 16   BroadcastLeaveRoom(name string)   仅在多人模式下，服务器才会向
+
+退出游戏  19   RequestQuitGame(name string)
+         16   BroadcastLeaveRoom(name string)   仅在多人模式下，服务器才会向
 
 
 

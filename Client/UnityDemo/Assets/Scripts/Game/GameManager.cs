@@ -18,15 +18,16 @@ public class GameManager : MonoBehaviour
     {
         NotificationCenter nc = NotificationCenter.Instance;
 
-        nc.AddEventListener(NotificationType.Network_OnResponseJoin, OnResponseJoin);
         nc.AddEventListener(NotificationType.Network_OnBroadcastMove, OnBroadcastMove);
-        nc.AddEventListener(NotificationType.Network_OnBroadcastJoin, OnBroadcastJoin);
-        nc.AddEventListener(NotificationType.Network_OnBroadcastLeave, OnBroadcastLeave);
+        nc.AddEventListener(NotificationType.Network_OnBroadcastJoinRoom, OnBroadcastJoinRoom);
+        nc.AddEventListener(NotificationType.Network_OnBroadcastLeaveRoom, OnBroadcastLeaveRoom);
         nc.AddEventListener(NotificationType.Network_OnConnected, OnConnected);
         nc.AddEventListener(NotificationType.Network_OnDisconnected, OnDisconnected);
         nc.AddEventListener(NotificationType.Operate_MapPosition, OnTouchMap);
         nc.AddEventListener(NotificationType.Network_OnResponseRegister, OnResponseRegister);
         nc.AddEventListener(NotificationType.Network_OnResponseLogin, OnResponseLogin);
+        nc.AddEventListener(NotificationType.Network_OnBroadcastGetColor, OnBroadcastGetColor);
+        nc.AddEventListener(NotificationType.Network_OnResponseJoinRoom, OnResponseJoinRoom);
     }
 
     void OnResponseRegister(NotificationArg arg)
@@ -77,7 +78,7 @@ public class GameManager : MonoBehaviour
             Debug.Log("登录失败");
     }
 
-    void OnResponseJoin(NotificationArg arg)
+    void OnResponseJoinRoom(NotificationArg arg)
     {
         ResponseJoin data = arg.GetValue<ResponseJoin>();
         PlayerData self = data.self;
@@ -100,16 +101,16 @@ public class GameManager : MonoBehaviour
         //}
     }
 
-    void OnBroadcastJoin(NotificationArg arg)
+    void OnBroadcastJoinRoom(NotificationArg arg)
     {
         BroadcastJoin data = arg.GetValue<BroadcastJoin>();
         //var p = CreatePlayer(data.x, data.y, data.playerID, data.type);
         //players.Add(data.playerID, p);
     }
 
-    void OnBroadcastLeave(NotificationArg arg)
+    void OnBroadcastLeaveRoom(NotificationArg arg)
     {
-        BroadcastLeave data = arg.GetValue<BroadcastLeave>();
+        BroadcastLeaveRoom data = arg.GetValue<BroadcastLeaveRoom>();
 
         //if (players.ContainsKey(data.playerID))
         //{
@@ -148,5 +149,11 @@ public class GameManager : MonoBehaviour
     void OnDisconnected(NotificationArg arg)
     {
         Debug.Log("OnDisconnected");
+    }
+
+    void OnBroadcastGetColor(NotificationArg arg)
+    {
+        Debug.Log("OnBroadcastGetColor");
+
     }
 }
