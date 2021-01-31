@@ -12,6 +12,7 @@ public class PlayerManager : MonoBehaviour
     public List<Color> collectedColor = new List<Color>();
     public List<Color> collectedKeys = new List<Color>();
     public string playerName;
+    public int nextProcess = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -41,6 +42,22 @@ public class PlayerManager : MonoBehaviour
                 gp.playerName.text = playerName;
                 SyncPlayerState(gp);
             }
+        }
+
+        //set Door State
+        DoorController[] doors = GameObject.FindObjectsOfType<DoorController>();
+        for(int i = 0; i<doors.Length; i++)
+        {
+            if(collectedColor.Contains(doors[i].color))
+                doors[i].OnOpened();
+        }
+
+        KeyController[] keys = GameObject.FindObjectsOfType<KeyController>();
+        for(int i = 0; i<keys.Length; i++)
+        {
+            if (collectedColor.Contains(keys[i].color) || collectedKeys.Contains(keys[i].color))
+                keys[i].isContained = true;
+
         }
     }
 

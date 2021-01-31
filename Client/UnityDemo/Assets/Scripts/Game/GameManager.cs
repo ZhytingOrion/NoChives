@@ -32,15 +32,21 @@ public class GameManager : MonoBehaviour
     void OnResponseRegister(NotificationArg arg)
     {
         ResponseRegister data = arg.GetValue<ResponseRegister>();
-        if (data.info.ret)
+        if (data.ret)
         {
             Debug.Log("注册成功");
-            PlayerData self = data.info.player;
-            PlayerManager.Instance.playerName = self.name;
+            PlayerManager.Instance.playerName = data.name;
+            PlayerManager.Instance.nextProcess = data.nextProcess;
             PlayerManager.Instance.collectedColor.Clear();
-            for (int i = 0; i < self.colors.Length; i++)
+            for (int i = 0; i < data.colors.Length; i++)
             {
-                PlayerManager.Instance.collectedColor.Add(DataTransfer.Instance.IndexToColor(self.colors[i]));
+                PlayerManager.Instance.collectedColor.Add(DataTransfer.Instance.IndexToColor(data.colors[i]));
+            }
+            for(int i = 0; i<data.keys.Length;i++)
+            {
+                Color color = DataTransfer.Instance.IndexToColor(data.keys[i]);
+                if (!PlayerManager.Instance.collectedColor.Contains(color))
+                PlayerManager.Instance.collectedKeys.Add(color);
             }
         }
         else
@@ -50,15 +56,21 @@ public class GameManager : MonoBehaviour
     void OnResponseLogin(NotificationArg arg)
     {
         ResponseLogin data = arg.GetValue<ResponseLogin>();
-        if (data.info.ret)
+        if (data.ret)
         {
             Debug.Log("登录成功");
-            PlayerData self = data.info.player;
-            PlayerManager.Instance.playerName = self.name;
+            PlayerManager.Instance.playerName = data.name;
+            PlayerManager.Instance.nextProcess = data.nextProcess;
             PlayerManager.Instance.collectedColor.Clear();
-            for (int i = 0; i < self.colors.Length; i++)
+            for (int i = 0; i < data.colors.Length; i++)
             {
-                PlayerManager.Instance.collectedColor.Add(DataTransfer.Instance.IndexToColor(self.colors[i]));
+                PlayerManager.Instance.collectedColor.Add(DataTransfer.Instance.IndexToColor(data.colors[i]));
+            }
+            for (int i = 0; i < data.keys.Length; i++)
+            {
+                Color color = DataTransfer.Instance.IndexToColor(data.keys[i]);
+                if (!PlayerManager.Instance.collectedColor.Contains(color))
+                    PlayerManager.Instance.collectedKeys.Add(color);
             }
         }
         else

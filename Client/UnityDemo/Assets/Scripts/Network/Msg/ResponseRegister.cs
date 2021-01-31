@@ -6,7 +6,11 @@ using UnityEngine;
 [Serializable]
 public class ResponseRegOrLogInData
 {
-    public PlayerData player;
+    public string name;
+    public int type;
+    public int nextProcess;
+    public int[] colors;
+    public int[] keys;
     public bool ret;
 }
 
@@ -14,7 +18,13 @@ public class ResponseRegOrLogInData
 public class ResponseRegister : BaseMsg
 {
     //public List<PlayerData> list;
-    public ResponseRegOrLogInData info;
+    //public ResponseRegOrLogInData info;
+    public string name;
+    public int type;
+    public int nextProcess;
+    public int[] colors;
+    public int[] keys;
+    public bool ret;
 
     public ResponseRegister() : base(MsgID.ResponseRegister)
     {
@@ -26,7 +36,13 @@ public class ResponseRegister : BaseMsg
 
         ResponseRegister jsonData = JsonUtility.FromJson<ResponseRegister>(jsonString);
         //this.list = jsonData.list;
-        this.info = jsonData.info;
+        //this.info = jsonData.info;
+        this.name = jsonData.name;
+        this.type = jsonData.type;
+        this.nextProcess = jsonData.nextProcess;
+        this.colors = jsonData.colors;
+        this.keys = jsonData.keys;
+        this.ret = jsonData.ret;
     }
 
     public override byte[] ToData()

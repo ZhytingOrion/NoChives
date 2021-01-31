@@ -8,6 +8,7 @@ public class KeyController : MonoBehaviour
     SpriteRenderer keySprite;
     bool hasPlayerInside = false;
     int moveDir = 1;
+    public bool isContained = false;
 
     // Start is called before the first frame update
     void Start()
@@ -20,7 +21,7 @@ public class KeyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(hasPlayerInside)
+        if(hasPlayerInside && !isContained)
         {
             if (keySprite != null)
                 keySprite.transform.localPosition += new Vector3(0, Time.deltaTime*0.5f, 0) * moveDir;
@@ -34,14 +35,18 @@ public class KeyController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collidedObject)
     {
+        if (isContained)
+            return;
         if (collidedObject.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            hasPlayerInside = true;
+            hasPlayerInside = true;           
         }
     }
 
     void OnTriggerExit2D(Collider2D collidedObject)
     {
+        if (isContained)
+            return;
         if (collidedObject.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             hasPlayerInside = false;

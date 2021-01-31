@@ -8,7 +8,7 @@ public class AimController : MonoBehaviour
     private Transform player;
     public float destScale = 0.3f;
     public float animTime = 1.0f;
-    public float animStayTime = 0.5f;
+    public float animStayTime = 1.0f;
     //public AnimationCurve destScaleCurve;
 
 

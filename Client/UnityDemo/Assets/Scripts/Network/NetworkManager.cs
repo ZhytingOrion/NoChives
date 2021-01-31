@@ -131,6 +131,15 @@ public class NetworkManager : MonoBehaviour
         Debug.Log("发送登录消息" + username);
     }
 
+    public void SendStartGame(string username, int mode)    //1 single 2 mutli
+    {
+        var msg = new RequestStartGame();
+        msg.name = username;
+        msg.mode = mode;
+        SendMessage(msg.ToMessage());
+        Debug.Log("发送游戏模式");
+    }
+
     public void SendRegister(string username)
     {
         var msg = new RequestRegister();

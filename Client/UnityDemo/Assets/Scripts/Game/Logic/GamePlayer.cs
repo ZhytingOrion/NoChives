@@ -107,6 +107,8 @@ public class GamePlayer : MonoBehaviour
         if (collectedKeys.Contains(color))
             return;
         collectedKeys.Add(color);
+        if(!this.GetComponent<AudioSource>().isPlaying)
+            this.GetComponent<AudioSource>().Play();
 
         Destroy(inKeyController.gameObject);
         isInKey = false;
@@ -125,6 +127,7 @@ public class GamePlayer : MonoBehaviour
         {
             collectedKeys.Remove(color);
             collectedColors.Add(color);
+            inDoorController.GetComponent<AudioSource>().Play();
 
             PlayerManager.Instance.SyncPlayerState(this);
             if (LevelCanvas != null)
@@ -144,6 +147,7 @@ public class GamePlayer : MonoBehaviour
             AimController ac = collidedObject.GetComponent<AimController>();
             if (ac == null)
                 return;
+            ac.GetComponent<AudioSource>().Play();
             ac.HoldBottle(this.transform);
 
             anim.SetTrigger("isGetBottle");
@@ -153,8 +157,9 @@ public class GamePlayer : MonoBehaviour
 
         else if(collidedObject.gameObject.layer == LayerMask.NameToLayer("Key"))
         {
-            isInKey = true;
             inKeyController = collidedObject.GetComponent<KeyController>();
+            if(!inKeyController.isContained)
+                isInKey = true;
         }
 
         else if(collidedObject.gameObject.layer == LayerMask.NameToLayer("Door"))

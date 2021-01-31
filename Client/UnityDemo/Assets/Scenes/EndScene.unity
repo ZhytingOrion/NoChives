@@ -664,6 +664,7 @@ MonoBehaviour:
   cloth_Orange: {fileID: 478675836}
   cloth_Green: {fileID: 1399684298}
   cloth_Purple: {fileID: 18851934}
+  endSceneAudioClip: {fileID: 8300000, guid: 2dd3bae826e3e3c4e8c3b0aea86d809e, type: 3}
 --- !u!1 &1314728228
 GameObject:
   m_ObjectHideFlags: 0

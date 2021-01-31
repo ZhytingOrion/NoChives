@@ -18,6 +18,18 @@ public class ChangeSceneUI : MonoBehaviour
         
     }
 
+    public void EnterSingleMode()
+    {
+        NetworkManager.Instance.SendStartGame(PlayerManager.Instance.playerName, 1);
+        SceneManager.LoadScene("Level_" + PlayerManager.Instance.nextProcess);
+    }
+
+    public void EnterMultiMode()
+    {
+        NetworkManager.Instance.SendStartGame(PlayerManager.Instance.playerName, 2);
+        SceneManager.LoadScene("Level_" + PlayerManager.Instance.nextProcess);
+    }
+
     public void ChangeScene(string NextSceneName)
     {
         SceneManager.LoadScene(NextSceneName);
