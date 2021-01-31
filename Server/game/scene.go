@@ -37,8 +37,7 @@ type DynamicRoom struct {
 func init() {
 }
 
-
-
+// respUserRegister 回复客户端注册
 func (g *Game) respUserRegister(name string, s *zero.Session) {
 	p, ok := g.userRegister(name, s)
 	ret := &ResponseRegOrLogIn{
@@ -54,6 +53,7 @@ func (g *Game) respUserRegister(name string, s *zero.Session) {
 	fmt.Printf("[respUserRegister]  success name:%v result:%v", name, ret)
 }
 
+// respUserLoginIn 回复客户端登录
 func (g *Game) respUserLoginIn(name string, s *zero.Session) {
 	p, ok := g.userLoginIn(name)
 	ret := &ResponseRegOrLogIn{
@@ -69,6 +69,7 @@ func (g *Game) respUserLoginIn(name string, s *zero.Session) {
 	fmt.Printf("[respUserLoginIn] success name:%v result:%v", name, ret)
 }
 
+// respUserStartGame 回复客户端进入游戏
 func (g *Game) respUserStartGame(name string, mode int) {
 	player, ok := g.userList.Load(name)
 	if !ok {
@@ -79,28 +80,161 @@ func (g *Game) respUserStartGame(name string, mode int) {
 	player.(*Player).Type = mode
 	// 如果是单人模式
 	var seed int
-	partnerList := make([]Partner, 0)
+	positionX := make([]float32, 0)
+	positionY := make([]float32, 0)
+	names := make([]string, 0)
+
 	switch mode {
 	case SingleMode:
 		seed = g.createOrGetStaticRoom(name).ranNum
 		break
 	case MultiPlayerMode:
+		dRoom := g.createOrGetDynamicRoom(player.(*Player))
+		seed = dRoom.randNum
 
+		f := func (key, value interface{}) bool {
+			if name != key.(string) {
+				names = append(names, key.(string))
+				positionX = append(positionX, value.(*Player).X)
+				positionX = append(positionX, value.(*Player).Y)
+			}
 
+			message := zero.NewMessage(BroadcastJoinRoom, []byte(name))
+			value.(*Player).Session.GetConn().SendMessage(message)
+			fmt.Printf("[respUserJoinRoom] 广播进入房间 %v ", value.(*Player).Name)
+			return true
+		}
+		dRoom.players.Range(f)
 		break
 	default:
 		fmt.Printf("[respUserStartGame] failed mode undefine %v", mode)
 	}
 
 	ret := &RoomInfo{
-		resourceRand: seed,
-		partners: partnerList,
+		ResourceRand: seed,
+		PositionX: positionX,  // 单人模式下为空，多人模式下为房间所有人但没有我
+		PositionY: positionY,
+		Names: names,
 	}
 	message := zero.NewMessage(ResponseJoinRoom, ret.ToJSON())
 	player.(*Player).Session.GetConn().SendMessage(message)
-
 	fmt.Printf("[respUserStartGame] success name:%v result:%v", name, ret)
 }
+
+// respUserMove 回复客户端移动同步
+func (g *Game) respUserMove(name string, x float32, y float32) {
+	player, ok := g.userList.Load(name)
+	if !ok {
+		fmt.Printf("[respUserMove] 玩家不存在 %v", name)
+		return
+	}
+	player.(*Player).X = x
+	player.(*Player).Y = y
+
+	if player.(*Player).Type == SingleMode {
+		return
+	}
+
+	// 多人模式给其他同步广播此玩家移动
+	ret := &Partner{
+		X: x,
+		Y: y,
+		Name: name,
+	}
+	message := zero.NewMessage(BroadcastMove, ret.ToJSON())
+	player.(*Player).Session.GetConn().SendMessage(message)
+	fmt.Printf("[respUserJoinRoom] BroadcastMove success %v ", name)
+}
+
+// respUserGetColor 回复客户端拿到颜色
+func (g *Game) respUserGetColor(name string, color int) {
+	player, ok := g.userList.Load(name)
+	if !ok {
+		fmt.Printf("[respUserMove] 玩家不存在 %v", name)
+		return
+	}
+	player.(*Player).Colors = append(player.(*Player).Colors, color)
+
+	if player.(*Player).Type == SingleMode {
+		return
+	}
+
+	message := zero.NewMessage(BroadcastGetColor, []byte(name))
+	player.(*Player).Session.GetConn().SendMessage(message)
+	fmt.Printf("[respUserJoinRoom] BroadcastGetColor success %v ", name)
+}
+
+// respUserJoinRoom 请求进入房间
+func (g *Game) respUserJoinRoom(name string, roomId int, lastRoomId int) {
+	player, ok := g.userList.Load(name)
+	if !ok {
+		fmt.Printf("[respUserMove] 玩家不存在 %v", name)
+		return
+	}
+	player.(*Player).NextProcess = roomId
+	mode := player.(*Player).Type
+
+	var seed int
+	positionX := make([]float32, 0)
+	positionY := make([]float32, 0)
+	names := make([]string, 0)
+
+	switch mode {
+	case SingleMode:
+		seed = g.createOrGetStaticRoom(name).ranNum
+		break
+	case MultiPlayerMode:
+		dRoom := g.createOrGetDynamicRoom(player.(*Player))
+		seed = dRoom.randNum
+
+		f := func (key, value interface{}) bool {
+			if name != key.(string) {
+				names = append(names, key.(string))
+				positionX = append(positionX, value.(*Player).X)
+				positionX = append(positionX, value.(*Player).Y)
+			}
+			message := zero.NewMessage(BroadcastJoinRoom, []byte(name))
+			value.(*Player).Session.GetConn().SendMessage(message)
+			fmt.Printf("[respUserJoinRoom] 广播进入房间 %v %v", value.(*Player).Name, roomId)
+			return true
+		}
+		dRoom.players.Range(f)
+		break
+	default:
+		fmt.Printf("[respUserStartGame] failed mode undefine %v", mode)
+	}
+
+	ret := &RoomInfo{
+		ResourceRand: seed,
+		PositionX: positionX,  // 单人模式下为空，多人模式下为房间所有人但没有我
+		PositionY: positionY,
+		Names: names,
+	}
+	message := zero.NewMessage(ResponseJoinRoom, ret.ToJSON())
+	player.(*Player).Session.GetConn().SendMessage(message)
+	fmt.Printf("[respUserJoinRoom] ResponseJoinRoom success %v ", ret)
+
+	if mode == SingleMode {
+		return
+	}
+
+	val, ok := g.dynamicRooms.Load(lastRoomId)
+	if !ok {
+		fmt.Println("[respUserJoinRoom] 退出多人房间错误，没有这个房间", lastRoomId)
+		return
+	}
+
+	f := func (key, value interface{}) bool {
+		message := zero.NewMessage(BroadcastLeaveRoom, []byte(name))
+		value.(*Player).Session.GetConn().SendMessage(message)
+		fmt.Printf("[respUserJoinRoom] 广播退出房间 %v %v", value.(*Player).Name, lastRoomId)
+		return true
+	}
+
+	val.(*DynamicRoom).players.Range(f)
+}
+
+
 
 
 // createOrGetStaticRoom 得到单人房间。如果没有就创建
@@ -113,16 +247,19 @@ func (g *Game) createOrGetStaticRoom(name string) *StaticRoom{
 	return val.(*StaticRoom)
 }
 
-func (g *Game) createOrGetDynamicRoom(level int, player *Player) *DynamicRoom {
+// createOrGetDynamicRoom 得到多人房间
+func (g *Game) createOrGetDynamicRoom(player *Player) *DynamicRoom {
 	// 创造一个包含此玩家的多人房间
 	dRoom := &DynamicRoom{
 		randNum: rand.Intn(MaxRandLimit),
 		players: &sync.Map{},
 	}
+	// 如果没有此房间，则创建的房间里有我
 	dRoom.players.Store(player.Name, player)
 
 	// 得到此等级的多人房间，如果没有就创建
-	//val, _ := g.dynamicRooms.LoadOrStore(level, dRoom)
+	val, _ := g.dynamicRooms.LoadOrStore(player.NextProcess, dRoom)
+	return val.(*DynamicRoom)
 	return nil
 }
 

@@ -13,6 +13,9 @@ func CreatePlayer(name string, s *zero.Session) *Player {
 		//Type:     rand.Intn(5),
 		NextProcess: 1,                   //新玩家默认进第一关
 		Colors: make([]int, 0),
+		Keys: make([]int, 0),
+		X:InitPositionX,
+		Y:InitPositionY,
 
 		Session:  s,
 	}

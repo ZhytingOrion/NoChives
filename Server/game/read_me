@@ -1,38 +1,9 @@
 // 此文件为客户端服务器协议文件
 
-// Player Player
-type Player struct {
-	Name     string        `json:"name"`
-	NextProcess int        `json:"nextProcess"`
-	Colors    []int         `json:"colors"`
-	Keys      []int         `json:"keys"`   //拥有的钥匙。颜色一样的钥匙只能拥有一把
-}
-
-type RoomInfo struct {
-     ResourceRand int      `json:"resourceRand"`          // 瓶子随机值
-     Partners []Partner     `json:"partners"`      // 同一个关卡其他玩家的位置
-}
-
-type Partner struct {
-    Name string         `json:"name"`
-    X     float         `json:"x"`
-    Y     float         `json:"y"`
-}
-
 const (
 	SingleMode = 1     // 单人模式
 	MultiPlayer = 2   // 多人模式
 )
-
-
-type ResponseRegOrLogIn struct {
-	player *Player   `json:"player"`
-	ret bool          `json:"ret"`
-}
-
-// 楼上废弃
-////////////////////////
-// 楼下才是新的
 
 type ResponseRegOrLogIn struct {
 	Name     string        `json:"name"`
@@ -43,6 +14,20 @@ type ResponseRegOrLogIn struct {
 	Ret bool                `json:"ret"`
 }
 
+
+type RoomInfo struct {
+     ResourceRand int      `json:"resourceRand"`          // 瓶子随机值
+     PositionX []float      `json:"xs"`                   // 同一个关卡其他玩家的位置
+     PositionY []float      `json:"ys"`
+     Names     []string     `json:"names"`
+}
+
+
+type Partner struct {
+	Name string         `json:"name"`
+	X     float32         `json:"x"`
+	Y     float32         `json:"y"`
+}
 
 // 我需要x，y坐标的选点。
 
@@ -60,10 +45,10 @@ type ResponseRegOrLogIn struct {
 请求移动  11   RequestMove(partner Partner)      玩家坐标，玩家名字      单人模式下客户端不必给服务器发此请求
         12    BroadcastMove(partner Partner)   移动的玩家坐标，名字
 
-拿到颜色  13    RequestGetColor(name string)
-         14    BroadcastGetColor(name string)    拿到颜色的玩家名字  仅在多人模式下，服务器才会向客户端发此广播
+拿到颜色  13    RequestGetColor(name string, color int)
+         14    BroadcastGetColor(name string)    拿到颜色的玩家名字  仅在多人模式下，服务器才会向客户端发此广播 你需要 color 吗？
 
-进入下一关 15   RequestJoinRoom(name string, roomId int, LastRoomId int)  玩家姓名 房间id 退出房间id
+进入下一关 15   RequestJoinRoom(name string, roomId int, lastRoomId int)  玩家姓名 房间id 退出房间id
          6    ResponseJoinRoom(roomInfo RoomInfo)  瓶子随机值，其他玩家坐标
          16   BroadcastLeaveRoom(name string)      仅在多人模式下，  退出关卡的玩家
          17   BroadcastJoinRoom(name string)      仅在多人模式下,   进入关卡的玩家
