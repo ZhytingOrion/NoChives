@@ -201,6 +201,7 @@ public class GamePlayer : MonoBehaviour
         if (!collectedColors.Contains(ac.color))
             collectedColors.Add(ac.color);
         PlayerManager.Instance.SyncPlayerState(this);
+        NetworkManager.Instance.SendGetColor(PlayerManager.Instance.playerName, DataTransfer.Instance.GetColorIndex(ac.color));
 
         PassLevel();
     }

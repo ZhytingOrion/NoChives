@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public class OtherPlayer
+{
+    public Vector3 Loc;
+    public string name;
+}
+
 public class PlayerManager : MonoBehaviour
 {
     public static PlayerManager Instance = null;
@@ -13,6 +19,8 @@ public class PlayerManager : MonoBehaviour
     public List<Color> collectedKeys = new List<Color>();
     public string playerName;
     public int nextProcess = 0;
+
+    public List<OtherPlayer> otherPlayers = new List<OtherPlayer>();
 
     // Start is called before the first frame update
     void Start()
